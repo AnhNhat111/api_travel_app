@@ -29,7 +29,16 @@ class AuthController extends Controller
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'username' => $request->username,
+            'avatar' => 'upload/img/avatar',
+            'phone' =>'', 
+            'gender' => $request->gender,
+            'birthday' => $request->birthday,
+            'status' => 2,
+            'schedule_id' => 0,
+            'modal_login_id' => 0,
+            'role_id' => 2,
         ]);
         $user->save();
         return response()->json([
@@ -54,12 +63,14 @@ class AuthController extends Controller
             'password' => 'required|string',
             'remember_me' => 'boolean'
         ]);
+        
         $credentials = request(['email', 'password']);
         if(!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
         $user = $request->user();
+        
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)

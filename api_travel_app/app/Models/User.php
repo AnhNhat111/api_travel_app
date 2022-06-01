@@ -21,6 +21,15 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
+        'avatar',
+        'phone',
+        'gender',
+        'birthday',
+        'status',
+        'schedule_id',
+        'modal_login_id',
+        'role_id'
     ];
 
     /**
