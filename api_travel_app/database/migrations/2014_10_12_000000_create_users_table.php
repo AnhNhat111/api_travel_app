@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Schema;
 class CreateUsersTable extends Migration
 {
     /**
-     * Run the migrations.
      *
+     * Run the migrations.
      * @return void
      */
     public function up()
@@ -17,6 +17,15 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('username');
+            $table->string('avatar');
+            $table->string('phone')->nullable();
+            $table->integer('gender');
+            $table->date('birthday');
+            $table->integer('status', 2);
+            $table->integer('schedule_id');
+            $table->integer('role_id');
+            $table->integer('modal_login_id');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
