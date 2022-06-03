@@ -34,3 +34,5 @@ Route::group([
         Route::get('user', [AuthController::class, 'user']);
     });
 });
+Route::post('reset-password', 'ResetPasswordController@sendMail');
+Route::put('reset-password/{token}', 'ResetPasswordController@reset');
