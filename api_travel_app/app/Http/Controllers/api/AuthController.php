@@ -21,6 +21,7 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        $date = Carbon::now();
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
@@ -30,11 +31,10 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'username' => $request->username,
             'avatar' => 'upload/img/avatar',
             'phone' =>'', 
-            'gender' => $request->gender,
-            'birthday' => $request->birthday,
+            'gender' => 1,
+            'birthday' => $date,
             'status' => 2,
             'schedule_id' => 0,
             'modal_login_id' => 0,
