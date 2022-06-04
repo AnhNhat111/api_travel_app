@@ -17,12 +17,12 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('username');
+            $table->string('username')->unique();
             $table->string('avatar');
             $table->string('phone')->nullable();
             $table->integer('gender');
             $table->date('birthday');
-            $table->integer('status', 2);
+            $table->integer('status');
             $table->integer('schedule_id');
             $table->integer('role_id');
             $table->integer('modal_login_id');

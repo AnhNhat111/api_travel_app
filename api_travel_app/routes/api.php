@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
-
+use App\Http\Controllers\api\ResetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,7 +32,8 @@ Route::group([
     ], function() {
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('user', [AuthController::class, 'user']);
+        Route::post('change-password',[ResetPasswordController::class,'changePassword']);
+        Route::post('change-infor',[ResetPasswordController::class,'changeInformation']);
     });
 });
-Route::post('reset-password', 'ResetPasswordController@sendMail');
 Route::put('reset-password/{token}', 'ResetPasswordController@reset');
