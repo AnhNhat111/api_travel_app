@@ -36,5 +36,4 @@ Route::group([
         Route::post('change-infor',[ResetPasswordController::class,'changeInformation']);
     });
 });
-Route::post('reset-password', 'ResetPasswordController@reset');
-Route::put('reset-password/{token}', 'ResetPasswordController@reset');
+Route::post('active-code', [AuthController::class, 'ActiveUser']);
