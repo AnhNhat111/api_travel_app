@@ -12,7 +12,8 @@
         "laravel/passport": "^10.4",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "nesbot/carbon": "^2.58"
+        "nesbot/carbon": "^2.58",
+        "phpmailer/phpmailer": "^6.6"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
