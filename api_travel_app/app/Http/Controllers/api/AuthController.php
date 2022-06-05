@@ -10,6 +10,7 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    
     /**
      * Create user
      *
@@ -30,7 +31,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'avatar' => null,
+            'avatar' => '',
             'phone' =>null, 
             'gender' => null,
             'birthday' => null,
@@ -76,6 +77,7 @@ class AuthController extends Controller
             $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
         return response()->json([
+            'user' => auth()->user(),
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
