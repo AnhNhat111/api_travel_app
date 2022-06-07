@@ -40,7 +40,7 @@ class AuthController extends Controller
             'birthday' => null,
             'status' => 2,
             'schedule_id' => null,
-            'modal_login_id' => 1,
+            'login_method_id' => 1,
             'role_id' => 2,
         ]);
         $user->save();
