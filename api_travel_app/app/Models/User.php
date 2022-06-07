@@ -29,7 +29,7 @@ class User extends Authenticatable
         'birthday',
         'status',
         'schedule_id',
-        'modal_login_id',
+        'login_method_id',
         'role_id'
     ];
 
