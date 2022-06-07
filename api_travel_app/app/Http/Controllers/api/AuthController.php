@@ -13,7 +13,7 @@ use Validator;
 
 class AuthController extends Controller
 {
-    
+
     /**
      * Create user
      *
@@ -35,12 +35,12 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'avatar' => '',
-            'phone' =>null, 
+            'phone' => null,
             'gender' => null,
             'birthday' => null,
             'status' => 2,
             'schedule_id' => null,
-            'modal_login_id' => null,
+            'modal_login_id' => 1,
             'role_id' => 2,
         ]);
         $user->save();
@@ -103,7 +103,7 @@ class AuthController extends Controller
             }
         }
     }
-  
+
     /**
      * Login user and create token
      *
@@ -121,14 +121,14 @@ class AuthController extends Controller
             'password' => 'required|string',
             'remember_me' => 'boolean'
         ]);
-        
+
         $credentials = request(['email', 'password']);
-        if(!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
         $user = $request->user();
-        
+
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)
@@ -143,7 +143,7 @@ class AuthController extends Controller
             )->toDateTimeString()
         ]);
     }
-  
+
     /**
      * Logout user (Revoke the token)
      *
@@ -156,7 +156,7 @@ class AuthController extends Controller
             'message' => 'Successfully logged out'
         ]);
     }
-  
+
     /**
      * Get the authenticated User
      *
