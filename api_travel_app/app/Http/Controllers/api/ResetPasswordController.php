@@ -110,8 +110,9 @@ class ResetPasswordController extends Controller
                     return response()->json(['message' => 'error']);
                 }
             } else {
+
                 $validator = Validator::make($request->all(), [
-                    'email' => 'required|email|unique:users,email',
+                    'email' => 'required|email',
                 ]);
                 if ($validator->fails()) {
                     return response()->json(['message' => 'error', 'errors' => $validator->errors()]);
@@ -137,6 +138,8 @@ class ResetPasswordController extends Controller
                     return response()->json(['message' => 'success']);
                 }
             }
+        } else {
+            return response()->json(['message' => 'not found user']);
         }
     }
 }
