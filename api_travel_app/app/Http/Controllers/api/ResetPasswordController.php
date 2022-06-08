@@ -85,61 +85,59 @@ class ResetPasswordController extends Controller
 
         $user = User::where('email', $email)->first();
 
-        if ($user) {
-            if ($code_pass) {
-                $check = ActiveUser::where([
-                    'email' => $email,
-                    'code' => $code_pass,
-                ])->first();
+        if ($code_pass) {
+            $check = ActiveUser::where([
+                'email' => $email,
+                'code' => $code_pass,
+            ])->first();
 
-                $dateNow = Carbon::now();
+            $dateNow = Carbon::now();
 
-                if ($check) {
-                    $dateCheck = Carbon::parse($check->created_at)->addHour();
+            if ($check) {
+                $dateCheck = Carbon::parse($check->created_at)->addHour();
 
-                    if ($dateCheck >= $dateNow) {
+                if ($dateCheck >= $dateNow) {
 
-                        $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);
+                    $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);
+                    $check->delete();
 
-                        $check->delete();
-                        return response()->json(['message' => 'success']);
-                    } else {
-                        return response()->json(['message' => 'error']);
-                    }
+                    return response()->json(['message' => 'success']);
+
                 } else {
+
                     return response()->json(['message' => 'error']);
                 }
             } else {
-
-                $validator = Validator::make($request->all(), [
-                    'email' => 'required|email',
-                ]);
-                if ($validator->fails()) {
-                    return response()->json(['message' => 'error', 'errors' => $validator->errors()]);
-                } else {
-                    $delete_active = ActiveUser::where('email', $email)->delete();
-
-                    $TNew_Active = new ActiveUser();
-
-                    $code = rand(10000, 99999);
-
-                    $TNew_Active->email = $email;
-                    $TNew_Active->code = $code;
-
-                    $TNew_Active->save();
-
-                    Mail::send('auth.email.mailfb', [
-                        'email' => $TNew_Active->email,
-                        'code' => $TNew_Active->code,
-                    ], function ($message) use ($TNew_Active) {
-                        $message->to($TNew_Active->email, 'User register')->subject('Code active user.');
-                    });
-
-                    return response()->json(['message' => 'success']);
-                }
+                return response()->json(['message' => 'error']);
             }
         } else {
-            return response()->json(['message' => 'not found user']);
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['message' => 'error', 'errors' => $validator->errors()]);
+            } else {
+                $delete_active = ActiveUser::where('email', $email)->delete();
+
+                $TNew_Active = new ActiveUser();
+
+                $code = rand(10000, 99999);
+
+                $TNew_Active->email = $email;
+                $TNew_Active->code = $code;
+
+                $TNew_Active->save();
+
+                Mail::send('auth.email.mailfb', [
+                    'email' => $TNew_Active->email,
+                    'code' => $TNew_Active->code,
+                ], function ($message) use ($TNew_Active) {
+                    $message->to($TNew_Active->email, 'User register')->subject('Code active user.');
+                });
+
+                return response()->json(['message' => 'success']);
+            }
         }
+
     }
 }
