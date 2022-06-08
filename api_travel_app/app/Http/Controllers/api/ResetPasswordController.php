@@ -117,25 +117,28 @@ class ResetPasswordController extends Controller
             if ($validator->fails()) {
                 return response()->json(['message' => 'error', 'errors' => $validator->errors()]);
             } else {
-                $delete_active = ActiveUser::where('email', $email)->delete();
-
-                $TNew_Active = new ActiveUser();
-
-                $code = rand(10000, 99999);
-
-                $TNew_Active->email = $email;
-                $TNew_Active->code = $code;
-
-                $TNew_Active->save();
-
-                Mail::send('auth.email.mailfb', [
-                    'email' => $TNew_Active->email,
-                    'code' => $TNew_Active->code,
-                ], function ($message) use ($TNew_Active) {
-                    $message->to($TNew_Active->email, 'User register')->subject('Code active user.');
-                });
-
-                return response()->json(['message' => 'success']);
+                if($user){
+                    $delete_active = ActiveUser::where('email', $email)->delete();
+    
+                    $TNew_Active = new ActiveUser();
+    
+                    $code = rand(10000, 99999);
+    
+                    $TNew_Active->email = $email;
+                    $TNew_Active->code = $code;
+    
+                    $TNew_Active->save();
+    
+                    Mail::send('auth.email.mailfb', [
+                        'email' => $TNew_Active->email,
+                        'code' => $TNew_Active->code,
+                    ], function ($message) use ($TNew_Active) {
+                        $message->to($TNew_Active->email, 'User register')->subject('Code active user.');
+                    });
+    
+                    return response()->json(['message' => 'success']);
+                }
+                return response()->json(['message' => 'not found user']);
             }
         }
 
