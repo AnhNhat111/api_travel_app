@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class role extends Model
+class methodlogin extends Model
 {
     use HasFactory;
     protected $primary = 'id';
     protected $fillable =[
         'name',
-        'status'
+        'status',
+        'date'
     ];
     protected $timestamp = true;
 }

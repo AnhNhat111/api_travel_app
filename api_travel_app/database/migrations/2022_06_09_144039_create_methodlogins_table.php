@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModalloginsTable extends Migration
+class CreateMethodloginsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateModalloginsTable extends Migration
      */
     public function up()
     {
-        Schema::create('modallogins', function (Blueprint $table) {
+        Schema::create('methodlogins', function (Blueprint $table) {
             $table->id();
             $table->string("name");
             $table->integer("status");
-            $table->date("date");
+            $table->datetime("date");
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateModalloginsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modallogins');
+        Schema::dropIfExists('methodlogins');
     }
 }

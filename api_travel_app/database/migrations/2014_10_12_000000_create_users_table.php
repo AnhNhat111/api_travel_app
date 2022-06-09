@@ -22,7 +22,6 @@ class CreateUsersTable extends Migration
             $table->integer('gender')->nullable();
             $table->date('birthday')->nullable();
             $table->integer('status');
-            $table->integer('schedule_id')->nullable();
             $table->integer('role_id')->nullable();
             $table->integer('login_method_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
