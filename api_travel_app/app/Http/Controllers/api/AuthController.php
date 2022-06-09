@@ -39,7 +39,6 @@ class AuthController extends Controller
             'gender' => null,
             'birthday' => null,
             'status' => 2,
-            'schedule_id' => null,
             'login_method_id' => 1,
             'role_id' => 2,
         ]);
