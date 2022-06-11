@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\role;
 use App\Models\ActiveUser;
 use Validator;
 
@@ -24,6 +25,63 @@ class AuthController extends Controller
      * @param  [string] password_confirmation
      * @return [string] message
      */
+
+    public function socialnetwoking(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string',
+            'method_login' => 'required'
+        ]);
+        $uid = $request->input('uid');
+
+        $check_uid = User::where([
+            'uid' => $uid,
+        ])->first();
+   
+        if($check_uid){
+            if($check_uid->email !== $request->email){
+
+                $change =  User::find($check_uid->id)->update(['email' => $request->email]);
+                return response()->json([
+                    'message' => 'Successfully update email!'
+                ], 201);
+
+            }  else{
+                return response()->json([
+                    'message' => 'Successfully created user, => login!'
+                ], 201);
+            }
+        }else{
+            $user = new User([
+                'name' => $request->name,
+                'email' => $request->email,
+                'uid' => $uid,
+                'password' => bcrypt($request->name),
+                'avatar' => '',
+                'phone' => null,
+                'gender' => null,
+                'birthday' => null,
+                'status' => 1,
+                'login_method_id' => $request->method_login,
+            ]);
+            $user->save();
+    
+            if ($user) {
+                $TNew_role = new role();
+    
+                $TNew_role->user_id = $user->id;
+                $TNew_role->role_id = 2;
+                $TNew_role->name = "customer";
+                $TNew_role->status = 1;
+    
+                $TNew_role->save();
+            }
+            return response()->json([
+                'message' => 'Successfully created user!'
+            ], 201);
+        }
+    }
+
     public function register(Request $request)
     {
         $request->validate([
@@ -34,16 +92,27 @@ class AuthController extends Controller
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
+            'uid' => '',
             'password' => bcrypt($request->password),
             'avatar' => '',
             'phone' => null,
             'gender' => null,
             'birthday' => null,
-            'status' => 2,
+            'status' => 1,
             'login_method_id' => 1,
-            'role_id' => 2,
         ]);
         $user->save();
+
+        if ($user) {
+            $TNew_role = new role();
+
+            $TNew_role->user_id = $user->id;
+            $TNew_role->role_id = 2;
+            $TNew_role->name = "customer";
+            $TNew_role->status = 1;
+
+            $TNew_role->save();
+        }
         return response()->json([
             'message' => 'Successfully created user!'
         ], 201);
@@ -179,6 +248,7 @@ class AuthController extends Controller
         $new_password = $request->input('new_password');
         $user = User::where('email', $email)->first();
         if($user){
+           
             $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);
             return response()->json(['message' => 'success']);
         }
