@@ -37,4 +37,4 @@ Route::group([
     });
 });
 Route::post('active-code', [AuthController::class, 'ActiveUser']);
-Route::post('forgot-password', [ResetPasswordController::class, 'forgotpassword']);
+Route::post('forgot-password', [AuthController::class, 'forgotpassword']);
