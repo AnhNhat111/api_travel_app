@@ -25,6 +25,7 @@ Route::group([
 ], function () {
 
     Route::post('register', [AuthController::class, 'register']);
+    Route::post('social-netwoking', [AuthController::class, 'socialnetwoking']);
     Route::post('login', [AuthController::class, 'login']);
 
     Route::group([
