@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use App\Models\User;
@@ -164,5 +165,16 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return response()->json($request->user());
+    }
+
+    public function forgotpassword(Request $request){
+        $email = $request->input('email');
+        $new_password = $request->input('new_password');
+        $user = User::where('email', $email)->first();
+        if($user){
+            $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);
+            return response()->json(['message' => 'success']);
+        }
+        return response()->json(['message' => 'not found user']);
     }
 }
