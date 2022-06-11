@@ -51,6 +51,7 @@ class AuthController extends Controller
 
     public function ActiveUser(Request $request)
     {
+        $type = $request->input('type');;
         $code_active = $request->input('code_active');
         $email = $request->input('email');
 
@@ -75,9 +76,15 @@ class AuthController extends Controller
                 return response()->json(['message' => 'error']);
             }
         } else {
+           if($type == "forgot"){
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+            ]);
+           }else{
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email|unique:users,email',
             ]);
+           }
             if ($validator->fails()) {
                 return response()->json(['message' => 'error', 'errors' => $validator->errors()]);
             } else {
