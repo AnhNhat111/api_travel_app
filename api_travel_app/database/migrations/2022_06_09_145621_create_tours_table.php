@@ -15,10 +15,12 @@ class CreateToursTable extends Migration
     {
         Schema::create('tours', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->uinque();
             $table->integer('type_id');
             $table->integer('promotion_id');
             $table->string('hotel');
             $table->string('schedule');
+            $table->date('date_to');
             $table->date('date_from');
             $table->string('name');
             $table->string('image');
@@ -27,7 +29,6 @@ class CreateToursTable extends Migration
             $table->integer('end_location_id');
             $table->integer('capacity');
             $table->integer('available_capacity');
-            $table->string('code');
             $table->integer('vehicle_id');
             $table->integer('status');
             $table->timestamps();

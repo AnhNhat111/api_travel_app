@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\ResetPasswordController;
+use App\Http\Controllers\api_admin\TourController;
+use App\Http\Controllers\api_admin\VehicleController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,3 +42,7 @@ Route::group([
 });
 Route::post('active-code', [AuthController::class, 'ActiveUser']);
 Route::post('forgot-password', [AuthController::class, 'forgotpassword']);
+
+Route::resource('tour', TourController::class);
+Route::resource('vehicle', VehicleController::class);
+
