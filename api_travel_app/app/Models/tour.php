@@ -10,16 +10,21 @@ class tour extends Model
     use HasFactory;
     protected $primary = 'id';
     protected $fillable =[
-        'user_id',
-        'tour_id',
-        'status',
-        'unit_price',
-        'total_price',
-        'is_confirmed',
-        'date_of_booking',
-        'is_paid',
-        'quantity',
-        'date_of_payment',
-        'booking_details'
+        'code',
+        'name',
+        'date_to',
+        'date_from',
+        'schedule',
+        'hotel',
+        'image',
+        'price',
+        'start_location_id',
+        'end_location_id',
+        'capacity',
+        'available_capacity',
+        'type_id',
+        'vehicle_id',
+        'promotion_id',
+        'status'
     ];
 }
