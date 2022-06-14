@@ -42,7 +42,7 @@ class TourController extends Controller
         $tours = $request->input('tours');
        
         $date_now = $date->format('Ymdhis');
-        dd($date_now);
+
             if($tours){
             $data = [];
               foreach($tours as $tour){
@@ -125,7 +125,7 @@ class TourController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
