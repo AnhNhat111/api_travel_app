@@ -48,27 +48,27 @@ class ImagesController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
-        }else{
-            if($images){
-               foreach ($images as $image) {
-                    
+        } else {
+            if ($images) {
+                foreach ($images as $image) {
+
                     $TNew = images::create([
-                        'name' => $date_now.$image["name"],
+                        'name' => $date_now . $image["name"],
                         'tour_id' => $image["tour_id"],
                         'image_path' => $image["image_path"] ?? null
                     ]);
 
                     $data[] = $TNew;
-               }
-           }else{
-            $TNew = images::create([
-                'name' => $request["name"],
-                'tour_id' => $request["tour_id"],
-                'image_path' => $request["image_path"] ?? null
-            ]);
-            $data = $TNew;
-           }
-           return respone()->json($data);
+                }
+            } else {
+                $TNew = images::create([
+                    'name' => $request["name"],
+                    'tour_id' => $request["tour_id"],
+                    'image_path' => $request["image_path"] ?? null
+                ]);
+                $data = $TNew;
+            }
+            return respone()->json($data);
         }
     }
 
@@ -103,7 +103,35 @@ class ImagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
+        $images = $request->input('images');
+        $data = [];
+        if ($images) {
+            foreach ($images as $image) {
+                $TUpdate = images::find($images["id"]);
+                if ($TUpdate) {
+                    $TUpdate->name = isset($image["name"]) ? $image["name"] : $TUpdate->name;
+                    $TUpdate->tour_id = isset($image["tour_id"]) ? $image["tour_id"] : $TUpdate->tour_id;
+                    $TUpdate->image_path = isset($image["image_path"]) ? $image["image_path"] : $TUpdate->image_path;
+                    $TUpdate->save();
+
+                    $data[] = $TUpdate;
+                } else {
+                    return response()->json(["message" => "not found images"]);
+                }
+            }
+        } else {
+            $TUpdate = images::find($id);
+            if ($TUpdate) {
+                $TUpdate->name = isset($image["name"]) ? $image["name"] : $TUpdate->name;
+                $TUpdate->tour_id = isset($image["tour_id"]) ? $image["tour_id"] : $TUpdate->tour_id;
+                $TUpdate->image_path = isset($image["image_path"]) ? $image["image_path"] : $TUpdate->image_path;
+
+                $TUpdate->save();
+
+                $data = $TUpdate;
+            }
+        }
+        return response()->json($data);
     }
 
     /**
@@ -112,7 +140,7 @@ class ImagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request ,$ids)
+    public function destroy(Request $request, $ids)
     {
         $ids = $request->input('ids');
         $delete = images::whereIn('id', $ids);
