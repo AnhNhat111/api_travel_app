@@ -17,7 +17,7 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $data = loaction::get()->sortBy('name')->paginate(15);
+        $data = location::get()->sortBy('name');
         return $data;
     }
 
@@ -40,30 +40,24 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         $location = $request->input('location');
+        $status = $request->input('status', 1);
         $data = [];
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
-        }else{
-            if($location){
-               foreach ($location as $location) {
-                    $TNew = location::create([
-                        'name' => $location["name"],
-                        'staus' => 1
-                    ]);
-                    $data[] = $TNew;
-               }
-           }else{
+        if ($location) {
+            foreach ($location as $location) {
                 $TNew = location::create([
-                    'name' => $request["name"],
-                    'staus' => 1
+                    'name' => $location["name"],
+                    'status' => $status
                 ]);
-                $data = $TNew;
-           }
-           return response()->json($data);
+                $data[] = $TNew;
+            }
+        } else {
+            $TNew = location::create([
+                'name' => $request["name"],
+                'status' => $status
+            ]);
+            $data = $TNew;
         }
+        return response()->json($data);
     }
 
     /**
@@ -97,7 +91,33 @@ class LocationController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
+        $locations = $request->input('locations');
+        $data = [];
+        if ($locations) {
+            foreach ($locations as $location) {
+                $TUpdate = location::find($location["id"]);
+                if ($TUpdate) {
+                    $TUpdate->name = isset($location["name"]) ? $location["name"] : $TUpdate->name;
+                    $TUpdate->status = isset($location["status"]) ? $location["status"] : $TUpdate->status;
+                    $TUpdate->save();
+
+                    $data[] = $TUpdate;
+                } else {
+                    return response()->json(["message" => "not found locations"]);
+                }
+            }
+        } else {
+            $TUpdate = location::find($id);
+            if ($TUpdate) {
+                $TUpdate->name = $request->input('name', $TUpdate->name);
+                $TUpdate->status = $request->input('status', $TUpdate->status);
+
+                $TUpdate->save();
+
+                $data = $TUpdate;
+            }
+        }
+        return response()->json($data);
     }
 
     /**
@@ -106,10 +126,10 @@ class LocationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request ,$ids)
+    public function destroy(Request $request, $ids)
     {
         $ids = $request->input('ids');
-        $delete = loaction::whereIn('id', $ids);
+        $delete = location::whereIn('id', $ids);
 
         $data = $delete->get();
 

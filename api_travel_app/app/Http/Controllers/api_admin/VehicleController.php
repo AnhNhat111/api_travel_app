@@ -42,22 +42,22 @@ class VehicleController extends Controller
         $vehicles = $request->input('vehicles');
         $data = [];
 
-            if($vehicles){
-               foreach ($vehicles as $vehicle) {
-                    $TNew = vehicle::create([
-                        'name' => $vehicle["name"],
-                        'status' => 1
-                    ]);
-                    $data[] = $TNew;
-               }
-           }else{
+        if ($vehicles) {
+            foreach ($vehicles as $vehicle) {
                 $TNew = vehicle::create([
-                    'name' => $request["name"],
+                    'name' => $vehicle["name"],
                     'status' => 1
                 ]);
-                $data = $TNew;
-           }
-           return response()->json($data);
+                $data[] = $TNew;
+            }
+        } else {
+            $TNew = vehicle::create([
+                'name' => $request["name"],
+                'status' => 1
+            ]);
+            $data = $TNew;
+        }
+        return response()->json($data);
     }
 
     /**
@@ -91,7 +91,33 @@ class VehicleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $vehicles = $request->input('vehicles');
+        $data = [];
+        if ($vehicles) {
+            foreach ($vehicles as $vehicle) {
+                $TUpdate = vehicle::find($vehicles["id"]);
+                if ($TUpdate) {
+                    $TUpdate->name = isset($vehicle["name"]) ? $vehicle["name"] : $TUpdate->name;
+                    $TUpdate->status = isset($vehicle["status"]) ? $vehicle["status"] : $TUpdate->status;
+                    $TUpdate->save();
+
+                    $data[] = $TUpdate;
+                } else {
+                    return response()->json(["message" => "not found vehicles"]);
+                }
+            }
+        } else {
+            $TUpdate = vehicle::find($id);
+            if ($TUpdate) {
+                $TUpdate->name = $request->input('name', $TUpdate->name);
+                $TUpdate->status = $request->input('status', $TUpdate->status);
+
+                $TUpdate->save();
+
+                $data = $TUpdate;
+            }
+        }
+        return response()->json($data);
     }
 
     /**
@@ -101,7 +127,7 @@ class VehicleController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function destroy(Request $request ,$ids)
+    public function destroy(Request $request, $ids)
     {
         $ids = $request->input('ids');
         $delete = vehicle::whereIn('id', $ids);
