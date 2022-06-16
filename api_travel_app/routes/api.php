@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\BokingController;
 use App\Http\Controllers\api\ResetPasswordController;
 use App\Http\Controllers\api_admin\TourController;
 use App\Http\Controllers\api_admin\VehicleController;
@@ -44,7 +45,7 @@ Route::group([
         Route::get('user', [AuthController::class, 'user']);
         Route::post('change-password', [ResetPasswordController::class, 'changePassword']);
         Route::post('change-infor', [ResetPasswordController::class, 'changeInformation']);
-
+        Route::apiResource('booking-tour', BokingController::class);
         Route::resource('user-tour', UserTourController::class);
     });
 });

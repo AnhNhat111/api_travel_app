@@ -9,23 +9,18 @@ class booking extends Model
 {
     use HasFactory;
     protected $primary = 'id';
-    protected $fillable =[
-        'hotel',
-        'schedule',
-        'type_id',
-        'promotion_id',
-        'date_from',
-        'date_to',
-        'code',
-        'name',
-        'image',
-        'price',
-        'start_location_id',
-        'end_location_id',
-        'capacity',
-        'available_capacity',
-        'vehicle_id',
+    protected $fillable = [
+        'user_id',
+        'tour_id',
         'status',
+        'unit_price',
+        'total_price',
+        'is_confirmed',
+        'date_of_booking',
+        'is_paid',
+        'quantity',
+        'date_of_payment',
+        'booking_details',
     ];
     protected $timestamp = true;
 }
