@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\location;
 use Illuminate\Http\Request;
 use App\Models\tour;
 use Carbon\Carbon;
@@ -63,11 +64,11 @@ class UserTourController extends Controller
         }
 
       
-
+        //search in start_location_id
         if($location_start && $location_end){
             $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->where("location_start", "LIKE", "%{$location_start}%")
-            ->where("location_start", "LIKE", "%{$location_end}%")
+            ->where("location_start", $location_start)
+            ->where("location_start", $location_end)
             ->get();
         }
 
@@ -171,4 +172,14 @@ class UserTourController extends Controller
     {
         //
     }
-}
+
+    public function get_location(){
+            $loaction = location::select('id', 'name')->get();
+        return response()->json($loaction);
+    }
+
+    public function get_tour_in_location($id){
+        $get_tour = tour::where('start_location_id', $id)->get();
+        return response()->json($get_tour);
+    }
+}   
