@@ -47,6 +47,8 @@ Route::group([
         Route::post('change-infor', [ResetPasswordController::class, 'changeInformation']);
         Route::apiResource('booking-tour', BokingController::class);
         Route::resource('user-tour', UserTourController::class);
+        Route::get('user-location', [UserTourController::class, 'get_location']);
+        Route::get('user-location-tour/{id}', [UserTourController::class, 'get_tour_in_location']);
     });
 });
 Route::post('active-code', [AuthController::class, 'ActiveUser']);
