@@ -49,6 +49,7 @@ Route::group([
         Route::resource('user-tour', UserTourController::class);
         Route::get('user-location', [UserTourController::class, 'get_location']);
         Route::get('user-location-tour/{id}', [UserTourController::class, 'get_tour_in_location']);
+        Route::get('by_tour/{id}', [UserTourController::class, 'get_tour_by_id']);
     });
 });
 Route::post('active-code', [AuthController::class, 'ActiveUser']);
