@@ -182,4 +182,9 @@ class UserTourController extends Controller
         $get_tour = tour::where('start_location_id', $id)->get();
         return response()->json($get_tour);
     }
+
+    public function get_tour_by_id($id){
+        $get_tour = tour::where('id', $id)->get();
+        return response()->json($get_tour);
+    }
 }   
