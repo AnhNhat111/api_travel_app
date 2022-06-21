@@ -26,7 +26,8 @@ class tour extends Model
         'type_id',
         'vehicle_id',
         'promotion_id',
-        'status'
+        'status',
+        'description'
     ];
     
     public function vehicle(){

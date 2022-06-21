@@ -62,6 +62,7 @@ class TourController extends Controller
                     'type_id' => $tour["type_id"] ?? null,
                     'vehicle_id' => $tour["vehicle_id"] ?? null,
                     'promotion_id' => $tour["promotion_id"] ?? null,
+                    'description' => $tour["description"] ?? null,
                     'status' => 1
                 ]);
                 $data[] = $TNew;
