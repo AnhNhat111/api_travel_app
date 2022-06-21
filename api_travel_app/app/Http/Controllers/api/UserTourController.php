@@ -184,7 +184,8 @@ class UserTourController extends Controller
     }
 
     public function get_tour_by_id($id){
-        $get_tour = tour::where('id', $id)->get();
+        $get_tour = tour::with(['vehicle', 'images','start_location','end_location'])
+        ->where('id', $id)->get();
         return response()->json($get_tour);
     }
 }   
