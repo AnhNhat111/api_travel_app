@@ -61,7 +61,7 @@ class BokingController extends Controller
             'user_id' => 'required',
             'tour_id' => 'required',
             'unit_price' => 'required',
-            'total_price' => 'required',
+            
             'is_confirmed' => 'required',
 
             'is_paid' => 'required',
@@ -78,14 +78,14 @@ class BokingController extends Controller
             'user_id' => Auth()->user()->id,
             'tour_id' => $request->tour_id ?? null,
             'unit_price' => $request->unit_price ?? null,
-            'total_price' => $request->total_price ?? null,
-            'is_confirmed' => $request->is_confirmed ?? null,
+            'total_price' => $request->unit_price *  $request->quantity   ?? null,
+            'is_confirmed' => $request->is_confirmed ?? 1,
             'date_of_booking' => $date ?? null,
-            'is_paid' => $request->is_paid ?? null,
+            'is_paid' => $request->is_paid ?? 0,
             'quantity' => $request->quantity ?? null,
             'date_of_payment' => $request->date_of_payment ?? null,
             'booking_details' => $request->booking_details ?? null,
-            'status' => $request->status ?? null
+            'status' => $request->status ?? 1
         ]);
         $data = $TNew;
         return response()->json($data);
