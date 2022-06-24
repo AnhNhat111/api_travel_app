@@ -7,4 +7,4 @@ firt run :
 second :
   + set up database in file .env
   + php artisan passport:install
-  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
+  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
