@@ -223,10 +223,12 @@ class AuthController extends Controller
         ]);
         if($request->method_login == 1){
             $credentials = request(['email', 'password']);
-            if (!Auth::attempt($credentials))
-                return response()->json([
-                    'message' => 'Unauthorized'
-                ], 401);
+            if (!Auth::attempt(['email' => $request->email, 'password' => $request->password, 'login_method_id' => 1]))
+                {
+                    return response()->json([
+                        'message' => 'Unauthorized'
+                    ], 401);
+                }
             $user = $request->user();
     
             $tokenResult = $user->createToken('Personal Access Token');
@@ -242,6 +244,8 @@ class AuthController extends Controller
                     $tokenResult->token->expires_at
                 )->toDateTimeString()
             ]);
+        }else{
+            return response()->json(["message" => "method_login require = 1"] );
         }
     }
 
