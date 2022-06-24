@@ -58,7 +58,6 @@ class BokingController extends Controller
         $date = $date_of_booking->format('Y-m-d h:i:s');
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
             'tour_id' => 'required',
             'unit_price' => 'required',
             
