@@ -16,22 +16,50 @@ use Validator;
 class AuthController extends Controller
 {
 
-    /**
-     * Create user
+ /**
+     * Login user and create token
      *
-     * @param  [string] name
      * @param  [string] email
-     * @param  [string] password
-     * @param  [string] password_confirmation
-     * @return [string] message
+     * @param  [interger] method_login
+     * @param  [string] uid
+     * @return [string] access_token
+     * @return [string] token_type
+     * @return [string] expires_at
      */
+
+    public function tokenuser(Request $request ,$email,$password, $uid){
+        if (!Auth::attempt(['email' => $email, 'password' => $password, 'uid' => $uid]))
+             return response()->json([
+                'message' => 'Unauthorized'
+                ], 401);
+            $user = $request->user();
+            
+            $tokenResult = $user->createToken('Personal Access Token');
+            $token = $tokenResult->token;
+            if ($request->remember_me)
+                $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->save();
+            return response()->json([
+                'user' => auth()->user(),
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString()
+            ]);
+    } 
+
 
     public function socialnetwoking(Request $request)
     {
+        
         $request->validate([
             'email' => 'required|string',
             'method_login' => 'required'
         ]);
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $login_method_id = $request->input('login_method_id');
         $uid = $request->input('uid');
 
         $check_uid = User::where([
@@ -42,21 +70,17 @@ class AuthController extends Controller
             if($check_uid->email !== $request->email){
 
                 $change =  User::find($check_uid->id)->update(['email' => $request->email]);
-                return response()->json([
-                    'message' => 'Successfully update email!'
-                ], 201);
+              return $this->tokenuser($request ,$email,$password,$uid);
 
             }  else{
-                return response()->json([
-                    'message' => 'Successfully created user, => login!'
-                ], 201);
+                return $this->tokenuser($request ,$email,$password, $uid);                
             }
         }else{
             $user = new User([
                 'name' => $request->name,
                 'email' => $request->email,
                 'uid' => $uid,
-                'password' => bcrypt($request->name),
+                'password' => bcrypt("000000"),
                 'avatar' => $request->avatar,
                 'phone' => null,
                 'gender' => null,
@@ -76,9 +100,7 @@ class AuthController extends Controller
     
                 $TNew_role->save();
             }
-            return response()->json([
-                'message' => 'Successfully created user!'
-            ], 201);
+            return $this->tokenuser($request, $email, $password, $uid);
         }
     }
 
@@ -192,32 +214,35 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+       
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
-            'remember_me' => 'boolean'
+            'remember_me' => 'boolean',
+            'method_login'=> 'required',
         ]);
-
-        $credentials = request(['email', 'password']);
-        if (!Auth::attempt($credentials))
+        if($request->method_login == 1){
+            $credentials = request(['email', 'password']);
+            if (!Auth::attempt($credentials))
+                return response()->json([
+                    'message' => 'Unauthorized'
+                ], 401);
+            $user = $request->user();
+    
+            $tokenResult = $user->createToken('Personal Access Token');
+            $token = $tokenResult->token;
+            if ($request->remember_me)
+                $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->save();
             return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
-        $user = $request->user();
-
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-        if ($request->remember_me)
-            $token->expires_at = Carbon::now()->addWeeks(1);
-        $token->save();
-        return response()->json([
-            'user' => auth()->user(),
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
-        ]);
+                'user' => auth()->user(),
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString()
+            ]);
+        }
     }
 
     /**
