@@ -221,31 +221,70 @@ class AuthController extends Controller
             'remember_me' => 'boolean',
             'method_login'=> 'required',
         ]);
-        if($request->method_login == 1){
-            $credentials = request(['email', 'password']);
-            if (!Auth::attempt(['email' => $request->email, 'password' => $request->password, 'login_method_id' => 1]))
-                {
-                    return response()->json([
-                        'message' => 'Unauthorized'
-                    ], 401);
-                }
-            $user = $request->user();
-    
-            $tokenResult = $user->createToken('Personal Access Token');
-            $token = $tokenResult->token;
-            if ($request->remember_me)
-                $token->expires_at = Carbon::now()->addWeeks(1);
-            $token->save();
-            return response()->json([
-                'user' => auth()->user(),
-                'access_token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
-                'expires_at' => Carbon::parse(
-                    $tokenResult->token->expires_at
-                )->toDateTimeString()
-            ]);
+
+        $admin = $request->input('admin', 1);
+
+       
+       
+        if('admin' == 1){
+
+                $checkEmail = User::where('email', $request->email)->first();
+                $checkRoleAdmin = role::where('user_id', $checkEmail->id)->first();
+               
+              if($checkRoleAdmin->role_id == 1){
+              
+                  if (!Auth::attempt(['email' => $request->email, 'password' => $request->password]))
+                  {
+                      return response()->json([
+                          'message' => 'Unauthorized'
+                      ], 401);
+                  }
+                   $user = $request->user();
+                   $tokenResult = $user->createToken('Personal Access Token');
+                  $token = $tokenResult->token;
+                  if ($request->remember_me)
+                      $token->expires_at = Carbon::now()->addWeeks(1);
+                  $token->save();
+                  return response()->json([
+                      'user' => auth()->user(),
+                      'access_token' => $tokenResult->accessToken,
+                      'token_type' => 'Bearer',
+                      'expires_at' => Carbon::parse(
+                          $tokenResult->token->expires_at
+                      )->toDateTimeString()
+                  ]);
+             }else{
+              return response()->json([
+                  'message' => 'Unauthorized'
+              ], 401);
+             }
         }else{
-            return response()->json(["message" => "method_login require = 1"] );
+            if($request->method_login == 1){
+    
+                if (!Auth::attempt(['email' => $request->email, 'password' => $request->password, 'login_method_id' => 1]))
+                    {
+                        return response()->json([
+                            'message' => 'Unauthorized'
+                        ], 401);
+                    }
+                $user = $request->user();
+        
+                $tokenResult = $user->createToken('Personal Access Token');
+                $token = $tokenResult->token;
+                if ($request->remember_me)
+                    $token->expires_at = Carbon::now()->addWeeks(1);
+                $token->save();
+                return response()->json([
+                    'user' => auth()->user(),
+                    'access_token' => $tokenResult->accessToken,
+                    'token_type' => 'Bearer',
+                    'expires_at' => Carbon::parse(
+                        $tokenResult->token->expires_at
+                    )->toDateTimeString()
+                ]);
+            }else{
+                return response()->json(["message" => "method_login require = 1"] );
+            }
         }
     }
 

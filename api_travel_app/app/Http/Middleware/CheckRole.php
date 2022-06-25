@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
+use App\Models\role;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,11 +18,11 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user();
-        if ($user->role_id == 1) {
-            return redirect('home');
-        }
-        
-        return $next($request);
+        // $checkRole = role::with(['checkRole'])
+        // ->where('role_id', 1);
+        // $checkRole = $request->input('checkRole');
+        // if($checkRole == 1){
+        //     return $next($request);
+        // }
     }
 }
