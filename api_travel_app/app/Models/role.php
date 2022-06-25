@@ -15,4 +15,8 @@ class role extends Model
         'status'
     ];
     protected $timestamp = true;
+
+    public function checkRole(){
+        return $this->hasMany(User::class,'id', 'role_id');
+    }
 }

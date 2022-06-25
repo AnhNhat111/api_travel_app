@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
-use App\Http\Controllers\api\BokingController;
+use App\Http\Controllers\api\UserBookingController;
 use App\Http\Controllers\api\ResetPasswordController;
 use App\Http\Controllers\api_admin\TourController;
 use App\Http\Controllers\api_admin\VehicleController;
@@ -11,6 +11,7 @@ use App\Http\Controllers\api_admin\VehicleController;
 use App\Http\Controllers\api\UserTourController;
 use App\Http\Controllers\api_admin\ImagesController;
 use App\Http\Controllers\api_admin\LocationController;
+use App\Http\Controllers\api_admin\AdminBookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,11 +42,12 @@ Route::group([
     Route::group([
         'middleware' => 'auth:api'
     ], function () {
+       
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('user', [AuthController::class, 'user']);
         Route::post('change-password', [ResetPasswordController::class, 'changePassword']);
         Route::post('change-infor', [ResetPasswordController::class, 'changeInformation']);
-        Route::apiResource('booking-tour', BokingController::class);
+        Route::apiResource('booking-tour', UserBookingController::class);
         Route::resource('user-tour', UserTourController::class);
      
         Route::get('user-location', [UserTourController::class, 'get_location']);
@@ -60,3 +62,4 @@ Route::resource('tour', TourController::class);
 Route::resource('vehicle', VehicleController::class);
 Route::resource('location', LocationController::class);
 Route::resource('images', ImagesController::class);
+Route::resource('booking-tour-admin', AdminBookingController::class);

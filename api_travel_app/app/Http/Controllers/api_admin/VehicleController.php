@@ -41,7 +41,6 @@ class VehicleController extends Controller
     {
         $vehicles = $request->input('vehicles');
         $data = [];
-
         if ($vehicles) {
             foreach ($vehicles as $vehicle) {
                 $TNew = vehicle::create([

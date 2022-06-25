@@ -23,4 +23,12 @@ class booking extends Model
         'booking_details',
     ];
     protected $timestamp = true;
+
+    public function tour(){
+        return $this->hasMany(tour::class, 'id', 'tour_id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

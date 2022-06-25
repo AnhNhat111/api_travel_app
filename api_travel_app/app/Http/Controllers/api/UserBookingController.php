@@ -5,13 +5,14 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\booking;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use Validator;
 
 
-class BokingController extends Controller
+class UserBookingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,16 +22,19 @@ class BokingController extends Controller
     public function index(Request $request)
     {
         $type = $request->input('type', 0);
-        //type == 1 : is not paid
+       
+        //type == 1 : is paid
         if ($type == 1) {
-            $get_booking = booking::where('user_id', auth()->user()->id)
-                ->where('is_paid', 2)
+            $get_booking = booking::with(['user', 'tour'])
+                ->where('user_id', auth()->user()->id)
+                ->where('is_paid', 1)
                 ->where('is_confirmed', 1)
                 ->get();
         } else {
-            $get_booking = booking::where('user_id', auth()->user()->id)
+            $get_booking = booking::with(['user', 'tour'])
+                ->where('user_id', auth()->user()->id)
                 ->where('is_paid', 1)
-                ->where('is_confirmed', 1)
+                ->where('is_confirmed', 2)
                 ->get();
         }
         return response()->json($get_booking);
