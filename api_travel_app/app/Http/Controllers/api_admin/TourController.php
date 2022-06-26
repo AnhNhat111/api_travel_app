@@ -54,7 +54,8 @@ class TourController extends Controller
                     'schedule' => $tour["schedule"] ?? null,
                     'hotel' => $tour["hotel"] ?? null,
                     'image' => $tour["image"] ?? null,
-                    'price' => $tour["price"] ?? null,
+                    'price_child' => $tour["price_child"] ?? null,
+                    'price_adult' => $tour["price_adult"] ?? null,
                     'start_location_id' => $tour["start_location_id"] ?? null,
                     'end_location_id' => $tour["end_location_id"] ?? null,
                     'capacity' => $tour["capacity"] ?? null,
@@ -79,7 +80,8 @@ class TourController extends Controller
                 'schedule' => $request->schedule ?? null,
                 'hotel' => $request->hotel ?? null,
                 'image' => $request->image ?? null,
-                'price' => $request->price ?? null,
+                'price_child' => $request->price_child ?? null,
+                'price_adult' => $request->price_adult ?? null,
                 'start_location_id' => $request->start_location_id ?? null,
                 'end_location_id' => $request->end_location_id ?? null,
                 'capacity' => $request->capacity ?? null,
@@ -140,7 +142,8 @@ class TourController extends Controller
                     $TUpdate->schedule = isset($tour['schedule']) ? $tour['schedule'] : $TUpdate->schedule;
                     $TUpdate->hotel = isset($tour['hotel']) ? $tour['hotel'] : $TUpdate->hotel;
                     $TUpdate->image = isset($tour['image']) ? $tour['image'] : $TUpdate->image;
-                    $TUpdate->price = isset($tour['price']) ? $tour['price'] : $TUpdate->price;
+                    $TUpdate->price_child = isset($tour['price_child']) ? $tour['price_child'] : $TUpdate->price_child;
+                    $TUpdate->price_adult = isset($tour['price_adult']) ? $tour['price_adult'] : $TUpdate->price_adult;
                     $TUpdate->start_location_id = isset($tour['start_location_id']) ? $tour['start_location_id'] : $TUpdate->start_location_id;
                     $TUpdate->end_location_id = isset($tour['end_location_id']) ? $tour['end_location_id'] : $TUpdate->end_location_id;
                     $TUpdate->capacity = isset($tour['capacity']) ? $tour['capacity'] : $TUpdate->capacity;
@@ -167,7 +170,8 @@ class TourController extends Controller
                 $TUpdate->schedule = $request->input('schedule', $TUpdate->schedule);
                 $TUpdate->hotel = $request->input('hotel', $TUpdate->hotel);
                 $TUpdate->image = $request->input('image', $TUpdate->image);
-                $TUpdate->price = $request->input('price', $TUpdate->price);
+                $TUpdate->price_child = isset($tour['price_child']) ? $tour['price_child'] : $TUpdate->price_child;
+                $TUpdate->price_adult = isset($tour['price_adult']) ? $tour['price_adult'] : $TUpdate->price_adult;
                 $TUpdate->start_location_id = $request->input('start_location_id', $TUpdate->start_location_id);
                 $TUpdate->end_location_id = $request->input('end_location_id', $TUpdate->end_location_id);
                 $TUpdate->capacity = $request->input('capacity', $TUpdate->capacity);

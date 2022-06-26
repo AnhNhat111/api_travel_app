@@ -24,7 +24,8 @@ class CreateToursTable extends Migration
             $table->date('date_from');
             $table->string('name');
             $table->string('image');
-            $table->integer('price');
+            $table->integer('price_child');
+            $table->integer('price_adult');
             $table->integer('start_location_id');
             $table->integer('end_location_id');
             $table->integer('capacity');

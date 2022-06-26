@@ -18,12 +18,15 @@ class CreateBookingsTable extends Migration
             $table->integer('user_id');
             $table->integer('tour_id');
             $table->integer('status');
-            $table->integer('unit_price');
+            $table->integer('quantity_child');
+            $table->integer('quantity_adult');
+            $table->integer('quantity');
+            $table->integer('unit_price_child');
+            $table->integer('unit_price_adult');
             $table->integer('total_price');
             $table->integer('is_confirmed');
             $table->dateTime('date_of_booking');
             $table->integer('is_paid');
-            $table->integer('quantity');
             $table->dateTime('date_of_payment');
             $table->string('booking_details');
             $table->timestamps();
