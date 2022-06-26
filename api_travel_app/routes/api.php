@@ -59,7 +59,3 @@ Route::post('active-code', [AuthController::class, 'ActiveUser']);
 Route::post('forgot-password', [AuthController::class, 'forgotpassword']);
 
 Route::resource('tour', TourController::class);
-Route::resource('vehicle', VehicleController::class);
-Route::resource('location', LocationController::class);
-Route::resource('images', ImagesController::class);
-Route::resource('booking-tour-admin', AdminBookingController::class);

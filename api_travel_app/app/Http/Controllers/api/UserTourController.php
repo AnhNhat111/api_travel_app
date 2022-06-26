@@ -22,7 +22,8 @@ class UserTourController extends Controller
         $vehicle = $request->input('vehicle');
         $date_to = $request->input('date_to');
         $date_from = $request->input('date_from');
-        $price = $request->input('price');
+        $price_adult = $request->input('price_adult');
+        $price_child = $request->input('price_adult');
         $location_start = $request->input('location_start');
         $location_end = $request->input('location_end');
         $available_capacity = $request->input('available_capacity');
@@ -57,11 +58,11 @@ class UserTourController extends Controller
             ->get();
         }
 
-        if($price){
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->where('price', $price)
-            ->get();
-        }
+        // if($price){
+        //     $tour = tour::with(['vehicle', 'images','start_location','end_location'])
+        //     ->where('price', $price)
+        //     ->get();
+        // }
 
       
         //search in start_location_id
@@ -78,9 +79,15 @@ class UserTourController extends Controller
             ->get();
         }
 
-        if($type){
+        if($type == 'adult'){
             $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->orderby('price', $type)
+            ->orderby('price_adult', $price_adult)
+            ->get();
+        }
+
+        if($type == 'price_child'){
+            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
+            ->orderby('price_child', $price_child)
             ->get();
         }
 
@@ -97,7 +104,8 @@ class UserTourController extends Controller
             ->orwhere('available_capacity', $available_capacity)
             ->orwhere("location_start", "LIKE", "%{$location_start}%")
             ->orwhere("location_start", "LIKE", "%{$location_end}%")
-            ->orwhere('price', $price)
+            ->orwhere('price_child', $price_child)
+            ->orwhere('price_adult', $price_adult)
             ->get();
         }else{
             $tour = tour::with(['vehicle', 'images','start_location','end_location'])
@@ -108,44 +116,12 @@ class UserTourController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }
