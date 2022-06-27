@@ -2,13 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
-use App\Models\role;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class CheckRole
+class cors
 {
     /**
      * Handle an incoming request.
@@ -19,6 +16,9 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        return $next($request)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->header('Access-Control-Allow-Headers', ' Origin, Content-Type, Accept, Authorization');
     }
 }
