@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\role;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckRole
 {
@@ -18,11 +19,6 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next)
     {
-        // $checkRole = role::with(['checkRole'])
-        // ->where('role_id', 1);
-        // $checkRole = $request->input('checkRole');
-        // if($checkRole == 1){
-        //     return $next($request);
-        // }
+        return $next($request);
     }
 }

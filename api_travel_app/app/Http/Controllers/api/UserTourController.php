@@ -79,21 +79,21 @@ class UserTourController extends Controller
             ->get();
         }
 
-        if($type == 'adult'){
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->orderby('price_adult', $price_adult)
-            ->get();
-        }
+        // if($type == 'price_audlt'){
+        //     $tour = tour::with(['vehicle', 'images','start_location','end_location'])
+        //     ->where('price_adult', $price_adult)
+        //     ->get();
+        // }
 
-        if($type == 'price_child'){
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->orderby('price_child', $price_child)
-            ->get();
-        }
+        // if($type == 'price_child'){
+        //     $tour = tour::with(['vehicle', 'images','start_location','end_location'])
+        //     ->where('price_child',$price_child)
+        //     ->get();
+        // }
 
-        if($type){
+        if($type == 'available_capacity'){
             $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->orderby('available_capacity', $type)
+            ->orderby('available_capacity', 'DESC')
             ->get();
         }
 
@@ -106,6 +106,7 @@ class UserTourController extends Controller
             ->orwhere("location_start", "LIKE", "%{$location_end}%")
             ->orwhere('price_child', $price_child)
             ->orwhere('price_adult', $price_adult)
+            ->orderby('created_at', 'DESC')
             ->get();
         }else{
             $tour = tour::with(['vehicle', 'images','start_location','end_location'])

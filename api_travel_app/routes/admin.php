@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
-use App\Http\Controllers\api_admin\AdminAuthController;
+use App\Http\Controllers\api_admin\AdminBookingController;
+use App\Http\Controllers\api_admin\LocationController;
 use App\Http\Controllers\api_admin\StatisticalController;
+use App\Http\Controllers\api_admin\TourController;
+use App\Http\Controllers\api_admin\UserManagement;
+use App\Http\Controllers\api_admin\VehicleController;
 
 Route::group([
     'prefix' => '/'
@@ -21,5 +25,8 @@ Route::group([
         Route::resource('images', ImagesController::class);
         Route::resource('booking-tour-admin', AdminBookingController::class);
         Route::get('statistical', [StatisticalController::class, 'statistical_tour']);
+
+        Route::resource('tour', TourController::class);
+        Route::resource('user', UserManagement::class);
     });
 });

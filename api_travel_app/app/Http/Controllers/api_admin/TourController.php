@@ -16,9 +16,12 @@ class TourController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
+            ->orderby('created_at', 'DESC')
+            ->get();
+        return response()->json($tour);
     }
 
     /**

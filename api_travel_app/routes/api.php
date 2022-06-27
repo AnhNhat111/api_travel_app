@@ -42,14 +42,14 @@ Route::group([
     Route::group([
         'middleware' => 'auth:api'
     ], function () {
-       
+
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('user', [AuthController::class, 'user']);
         Route::post('change-password', [ResetPasswordController::class, 'changePassword']);
         Route::post('change-infor', [ResetPasswordController::class, 'changeInformation']);
         Route::apiResource('booking-tour', UserBookingController::class);
         Route::resource('user-tour', UserTourController::class);
-     
+
         Route::get('user-location', [UserTourController::class, 'get_location']);
         Route::get('user-location-tour/{id}', [UserTourController::class, 'get_tour_in_location']);
         Route::get('by_tour/{id}', [UserTourController::class, 'get_tour_by_id']);
@@ -57,5 +57,3 @@ Route::group([
 });
 Route::post('active-code', [AuthController::class, 'ActiveUser']);
 Route::post('forgot-password', [AuthController::class, 'forgotpassword']);
-
-Route::resource('tour', TourController::class);

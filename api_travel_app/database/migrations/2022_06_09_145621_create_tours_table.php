@@ -32,7 +32,7 @@ class CreateToursTable extends Migration
             $table->integer('available_capacity');
             $table->integer('vehicle_id');
             $table->integer('status');
-            $table->integer('description')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

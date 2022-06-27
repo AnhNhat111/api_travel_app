@@ -222,15 +222,13 @@ class AuthController extends Controller
             'method_login'=> 'required',
         ]);
 
-        $admin = $request->input('admin', 1);
+        $admin = $request->input('admin');
 
-       
-       
-        if('admin' == 1){
+        $checkEmail = User::where('email', $request->email)->first();
+        $checkRoleAdmin = role::where('user_id', $checkEmail->id)->first();
 
-                $checkEmail = User::where('email', $request->email)->first();
-                $checkRoleAdmin = role::where('user_id', $checkEmail->id)->first();
-               
+        if($admin == 1){
+                
               if($checkRoleAdmin->role_id == 1){
               
                   if (!Auth::attempt(['email' => $request->email, 'password' => $request->password]))
