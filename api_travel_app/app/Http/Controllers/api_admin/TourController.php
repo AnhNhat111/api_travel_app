@@ -18,7 +18,7 @@ class TourController extends Controller
      */
     public function index(Request $request)
     {
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
+        $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
             ->orderby('created_at', 'DESC')
             ->get();
         return response()->json($tour);
@@ -57,8 +57,8 @@ class TourController extends Controller
                     'schedule' => $tour["schedule"] ?? null,
                     'hotel' => $tour["hotel"] ?? null,
                     'image' => $tour["image"] ?? null,
-                    'price_child' => $tour["price_child"] ?? null,
-                    'price_adult' => $tour["price_adult"] ?? null,
+                    'price_child' => $tour["price_child"] ?? 0,
+                    'price_adult' => $tour["price_adult"] ?? 0,
                     'start_location_id' => $tour["start_location_id"] ?? null,
                     'end_location_id' => $tour["end_location_id"] ?? null,
                     'capacity' => $tour["capacity"] ?? null,
