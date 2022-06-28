@@ -16,7 +16,7 @@ use Validator;
 class AuthController extends Controller
 {
 
- /**
+    /**
      * Login user and create token
      *
      * @param  [string] email
@@ -27,32 +27,33 @@ class AuthController extends Controller
      * @return [string] expires_at
      */
 
-    public function tokenuser(Request $request ,$email,$password, $uid){
+    public function tokenuser(Request $request, $email, $password, $uid)
+    {
         if (!Auth::attempt(['email' => $email, 'password' => $password, 'uid' => $uid]))
-             return response()->json([
-                'message' => 'Unauthorized'
-                ], 401);
-            $user = $request->user();
-            
-            $tokenResult = $user->createToken('Personal Access Token');
-            $token = $tokenResult->token;
-            if ($request->remember_me)
-                $token->expires_at = Carbon::now()->addWeeks(1);
-            $token->save();
             return response()->json([
-                'user' => auth()->user(),
-                'access_token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
-                'expires_at' => Carbon::parse(
-                    $tokenResult->token->expires_at
-                )->toDateTimeString()
-            ]);
-    } 
+                'message' => 'Unauthorized'
+            ], 401);
+        $user = $request->user();
+
+        $tokenResult = $user->createToken('Personal Access Token');
+        $token = $tokenResult->token;
+        if ($request->remember_me)
+            $token->expires_at = Carbon::now()->addWeeks(1);
+        $token->save();
+        return response()->json([
+            'user' => auth()->user(),
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at' => Carbon::parse(
+                $tokenResult->token->expires_at
+            )->toDateTimeString()
+        ]);
+    }
 
 
     public function socialnetwoking(Request $request)
     {
-        
+
         $request->validate([
             'email' => 'required|string',
             'method_login' => 'required'
@@ -65,17 +66,16 @@ class AuthController extends Controller
         $check_uid = User::where([
             'uid' => $uid,
         ])->first();
-   
-        if($check_uid){
-            if($check_uid->email !== $request->email){
+
+        if ($check_uid) {
+            if ($check_uid->email !== $request->email) {
 
                 $change =  User::find($check_uid->id)->update(['email' => $request->email]);
-              return $this->tokenuser($request ,$email,$password,$uid);
-
-            }  else{
-                return $this->tokenuser($request ,$email,$password, $uid);                
+                return $this->tokenuser($request, $email, $password, $uid);
+            } else {
+                return $this->tokenuser($request, $email, $password, $uid);
             }
-        }else{
+        } else {
             $user = new User([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -89,15 +89,15 @@ class AuthController extends Controller
                 'login_method_id' => $request->method_login,
             ]);
             $user->save();
-    
+
             if ($user) {
                 $TNew_role = new role();
-    
+
                 $TNew_role->user_id = $user->id;
                 $TNew_role->role_id = 2;
                 $TNew_role->name = "customer";
                 $TNew_role->status = 1;
-    
+
                 $TNew_role->save();
             }
             return $this->tokenuser($request, $email, $password, $uid);
@@ -167,15 +167,15 @@ class AuthController extends Controller
                 return response()->json(['message' => 'error']);
             }
         } else {
-           if($type == "forgot"){
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
-            ]);
-           }else{
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email|unique:users,email',
-            ]);
-           }
+            if ($type == "forgot") {
+                $validator = Validator::make($request->all(), [
+                    'email' => 'required|email',
+                ]);
+            } else {
+                $validator = Validator::make($request->all(), [
+                    'email' => 'required|email|unique:users,email',
+                ]);
+            }
             if ($validator->fails()) {
                 return response()->json(['message' => 'error', 'errors' => $validator->errors()]);
             } else {
@@ -214,59 +214,34 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-       
+
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
             'remember_me' => 'boolean',
-            'method_login'=> 'required',
+            'method_login' => 'required',
         ]);
 
         $admin = $request->input('admin');
 
         $checkEmail = User::where('email', $request->email)->first();
+
+        if (is_null($checkEmail)) {
+            return response()->json(["message" => "not found user"]);
+        }
+
         $checkRoleAdmin = role::where('user_id', $checkEmail->id)->first();
 
-        if($admin == 1){
-                
-              if($checkRoleAdmin->role_id == 1){
-              
-                  if (!Auth::attempt(['email' => $request->email, 'password' => $request->password]))
-                  {
-                      return response()->json([
-                          'message' => 'Unauthorized'
-                      ], 401);
-                  }
-                   $user = $request->user();
-                   $tokenResult = $user->createToken('Personal Access Token');
-                  $token = $tokenResult->token;
-                  if ($request->remember_me)
-                      $token->expires_at = Carbon::now()->addWeeks(1);
-                  $token->save();
-                  return response()->json([
-                      'user' => auth()->user(),
-                      'access_token' => $tokenResult->accessToken,
-                      'token_type' => 'Bearer',
-                      'expires_at' => Carbon::parse(
-                          $tokenResult->token->expires_at
-                      )->toDateTimeString()
-                  ]);
-             }else{
-              return response()->json([
-                  'message' => 'Unauthorized'
-              ], 401);
-             }
-        }else{
-            if($request->method_login == 1){
-    
-                if (!Auth::attempt(['email' => $request->email, 'password' => $request->password, 'login_method_id' => 1]))
-                    {
-                        return response()->json([
-                            'message' => 'Unauthorized'
-                        ], 401);
-                    }
+        if ($admin == 1) {
+
+            if ($checkRoleAdmin->role_id == 1) {
+
+                if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                    return response()->json([
+                        'message' => 'Unauthorized'
+                    ], 401);
+                }
                 $user = $request->user();
-        
                 $tokenResult = $user->createToken('Personal Access Token');
                 $token = $tokenResult->token;
                 if ($request->remember_me)
@@ -280,8 +255,36 @@ class AuthController extends Controller
                         $tokenResult->token->expires_at
                     )->toDateTimeString()
                 ]);
-            }else{
-                return response()->json(["message" => "method_login require = 1"] );
+            } else {
+                return response()->json([
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
+        } else {
+            if ($request->method_login == 1) {
+
+                if (!Auth::attempt(['email' => $request->email, 'password' => $request->password, 'login_method_id' => 1])) {
+                    return response()->json([
+                        'message' => 'Unauthorized'
+                    ], 401);
+                }
+                $user = $request->user();
+
+                $tokenResult = $user->createToken('Personal Access Token');
+                $token = $tokenResult->token;
+                if ($request->remember_me)
+                    $token->expires_at = Carbon::now()->addWeeks(1);
+                $token->save();
+                return response()->json([
+                    'user' => auth()->user(),
+                    'access_token' => $tokenResult->accessToken,
+                    'token_type' => 'Bearer',
+                    'expires_at' => Carbon::parse(
+                        $tokenResult->token->expires_at
+                    )->toDateTimeString()
+                ]);
+            } else {
+                return response()->json(["message" => "method_login require = 1"]);
             }
         }
     }
@@ -309,12 +312,13 @@ class AuthController extends Controller
         return response()->json($request->user());
     }
 
-    public function forgotpassword(Request $request){
+    public function forgotpassword(Request $request)
+    {
         $email = $request->input('email');
         $new_password = $request->input('new_password');
         $user = User::where('email', $email)->first();
-        if($user){
-           
+        if ($user) {
+
             $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);
             return response()->json(['message' => 'success']);
         }

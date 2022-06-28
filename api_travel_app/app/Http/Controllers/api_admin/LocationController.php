@@ -18,7 +18,7 @@ class LocationController extends Controller
     public function index()
     {
         $data = location::get()->sortBy('name');
-        return $data;
+        return response()->json($data);
     }
 
     /**

@@ -52,13 +52,13 @@ Route::group([
         Route::get('user-location', [UserTourController::class, 'get_location']);
         Route::get('user-location-tour/{id}', [UserTourController::class, 'get_tour_in_location']);
         Route::get('by_tour/{id}', [UserTourController::class, 'get_tour_by_id']);
+
+
+        Route::post('active-code', [AuthController::class, 'ActiveUser']);
+        Route::post('forgot-password', [AuthController::class, 'forgotpassword']);
+        Route::resource('vehicle', VehicleController::class);
+        Route::resource('location', LocationController::class);
+        Route::resource('images', ImagesController::class);
+        Route::resource('tour', TourController::class);
     });
 });
-
-Route::post('active-code', [AuthController::class, 'ActiveUser']);
-Route::post('forgot-password', [AuthController::class, 'forgotpassword']);
-Route::resource('tour', TourController::class);
-Route::resource('vehicle', VehicleController::class);
-Route::resource('location', LocationController::class);
-Route::resource('images', ImagesController::class);
-Route::resource('tour', TourController::class);
