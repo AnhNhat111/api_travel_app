@@ -15,7 +15,7 @@ class UserTourController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function index(Request $request)
     {
         $date = $request->input('date', Carbon::now());
@@ -32,30 +32,30 @@ class UserTourController extends Controller
         $type = $request->input('type', 'ASC');
 
         $avaiable_tour = tour::get();
-        foreach($avaiable_tour as $avaiable){
+        foreach ($avaiable_tour as $avaiable) {
             $avaiable_slot[] = $avaiable->available_capacity;
         }
 
-        if($date){
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->where('created_at', $date)
-            ->orWhere('vehicle_id', $vehicle)
-            ->get();
+        if ($date) {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->where('created_at', $date)
+                ->orWhere('vehicle_id', $vehicle)
+                ->get();
         }
 
-        if($vehicle){
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->where('vehicle_id', $vehicle)
-            ->get();
+        if ($vehicle) {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->where('vehicle_id', $vehicle)
+                ->get();
         }
 
-        if($date_to && $date_from){
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->whereBetween('date_to',[
-                'date_to' => $date_to,
-                'date_from' => $date_from
-            ])
-            ->get();
+        if ($date_to && $date_from) {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->whereBetween('date_to', [
+                    'date_to' => $date_to,
+                    'date_from' => $date_from
+                ])
+                ->get();
         }
 
         // if($price){
@@ -64,19 +64,19 @@ class UserTourController extends Controller
         //     ->get();
         // }
 
-      
+
         //search in start_location_id
-        if($location_start && $location_end){
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->where("location_start", $location_start)
-            ->where("location_start", $location_end)
-            ->get();
+        if ($location_start && $location_end) {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->where("location_start", $location_start)
+                ->where("location_start", $location_end)
+                ->get();
         }
 
-        if($available_capacity){
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->orderBy('available_capacity', 'DESC')
-            ->get();
+        if ($available_capacity) {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->orderBy('available_capacity', 'DESC')
+                ->get();
         }
 
         // if($type == 'price_audlt'){
@@ -91,26 +91,26 @@ class UserTourController extends Controller
         //     ->get();
         // }
 
-        if($type == 'available_capacity'){
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->orderby('available_capacity', 'DESC')
-            ->get();
+        if ($type == 'available_capacity') {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->orderby('available_capacity', 'DESC')
+                ->get();
         }
 
-        if($fillter_tour){
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->where('created_at', $date)
-            ->orWhere('vehicle_id', $vehicle)
-            ->orwhere('available_capacity', $available_capacity)
-            ->orwhere("location_start", "LIKE", "%{$location_start}%")
-            ->orwhere("location_start", "LIKE", "%{$location_end}%")
-            ->orwhere('price_child', $price_child)
-            ->orwhere('price_adult', $price_adult)
-            ->orderby('created_at', 'DESC')
-            ->get();
-        }else{
-            $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-            ->get();
+        if ($fillter_tour) {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->where('created_at', $date)
+                ->orWhere('vehicle_id', $vehicle)
+                ->orwhere('available_capacity', $available_capacity)
+                ->orwhere("location_start", "LIKE", "%{$location_start}%")
+                ->orwhere("location_start", "LIKE", "%{$location_end}%")
+                ->orwhere('price_child', $price_child)
+                ->orwhere('price_adult', $price_adult)
+                ->orderby('created_at', 'DESC')
+                ->get();
+        } else {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->get();
         }
 
         return response()->json($tour);
@@ -150,19 +150,23 @@ class UserTourController extends Controller
         //
     }
 
-    public function get_location(){
-            $loaction = location::select('id', 'name')->get();
+    public function get_location()
+    {
+        $loaction = location::select('id', 'name')->get();
         return response()->json($loaction);
     }
 
-    public function get_tour_in_location($id){
-        $get_tour = tour::where('start_location_id', $id)->get();
+    public function get_tour_in_location($id)
+    {
+        $get_tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+            ->where('start_location_id', $id)->get();
         return response()->json($get_tour);
     }
 
-    public function get_tour_by_id($id){
-        $get_tour = tour::with(['vehicle', 'images','start_location','end_location'])
-        ->where('id', $id)->get();
+    public function get_tour_by_id($id)
+    {
+        $get_tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+            ->where('id', $id)->get();
         return response()->json($get_tour);
     }
-}   
+}
