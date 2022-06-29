@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\booking;
+use App\Models\tour;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class UserBookingController extends Controller
     public function index(Request $request)
     {
         $type = $request->input('type', 0);
-       
+
         //type == 1 : is paid
         if ($type == 1) {
             $get_booking = booking::with(['user', 'tour'])
@@ -137,6 +138,10 @@ class UserBookingController extends Controller
             $booking->is_paid = $request->input('is_paid', 1);
             $booking->is_confirmed = $request->input('is_confirmed', 1);
             $booking->status = $request->input('status', 1);
+            $booking->quantity_child = $request->input('quantity_child', $booking->quantity_child);
+            $booking->unit_price_child = $request->input('unit_price_child', $booking->unit_price_child);
+            $booking->quantity_adult = $request->input('quantity_adult', $booking->quantity_adult);
+            $booking->unit_price_adult = $request->input('unit_price_adult', $booking->unit_price_adult);
 
             $data = $booking;
         }
@@ -149,8 +154,18 @@ class UserBookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $ids)
     {
-        //
+        $ids = $request->input('ids');
+        $delete = booking::whereIn('id', $ids);
+
+        if ($delete->status == 2) {
+            $data = $delete->get();
+
+            if (count($data) > 0) {
+                $delete->delete();
+            }
+        }
+        return response()->json($data);
     }
 }
