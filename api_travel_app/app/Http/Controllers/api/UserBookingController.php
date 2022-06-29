@@ -15,11 +15,21 @@ use Validator;
 
 class UserBookingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function search(Request $request)
+    {
+        $search = "";
+        $search = $request->input("key");
+        $shop_id = $request->input('shopId');
+
+        if (!empty($request->input("key"))) {
+            $search = $request->input("key");
+        }
+
+        $data = tour::where('shop_id', $shop_id)->where("name", "LIKE", "%{$search}%")->orderBy("id", "DESC")->get();
+
+        return response()->json(['message' => 'success', 'data' => $data]);
+    }
+
     public function index(Request $request)
     {
         $type = $request->input('type', 0);
@@ -41,22 +51,7 @@ class UserBookingController extends Controller
         return response()->json($get_booking);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -100,35 +95,6 @@ class UserBookingController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $booking = booking::find($id);
