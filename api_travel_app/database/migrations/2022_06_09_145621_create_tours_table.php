@@ -19,7 +19,7 @@ class CreateToursTable extends Migration
             $table->integer('type_id');
             $table->integer('promotion_id');
             $table->string('hotel');
-            $table->string('schedule');
+            $table->text('schedule');
             $table->date('date_to');
             $table->date('date_from');
             $table->string('name');
