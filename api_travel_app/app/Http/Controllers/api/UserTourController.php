@@ -16,6 +16,23 @@ class UserTourController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function search(Request $request)
+    {
+        $search = "";
+        $search = $request->input("key");
+        $shop_id = $request->input('shopId');
+
+        if (!empty($request->input("key"))) {
+            $search = $request->input("key");
+        }
+
+        $data = tour::where('shop_id', $shop_id)
+            ->orWhere("code", $search)
+            ->where("name", "LIKE", "%{$search}%")->orderBy("id", "DESC")->get();
+
+        return response()->json(['message' => 'success', 'data' => $data]);
+    }
+
     public function index(Request $request)
     {
         $date = $request->input('date', Carbon::now());
