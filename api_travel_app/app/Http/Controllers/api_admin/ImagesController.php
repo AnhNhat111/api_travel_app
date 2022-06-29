@@ -68,7 +68,7 @@ class ImagesController extends Controller
                 ]);
                 $data = $TNew;
             }
-            return respone()->json($data);
+            return response()->json($data);
         }
     }
 
