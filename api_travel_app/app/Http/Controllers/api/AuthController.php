@@ -53,7 +53,6 @@ class AuthController extends Controller
 
     public function socialnetwoking(Request $request)
     {
-
         $request->validate([
             'email' => 'required|string',
             'method_login' => 'required'
