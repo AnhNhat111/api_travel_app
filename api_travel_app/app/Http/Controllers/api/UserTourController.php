@@ -103,8 +103,8 @@ class UserTourController extends Controller
                 ->where('date_to', $date)
                 ->orWhere('vehicle_id', $vehicle)
                 ->orWhere('available_capacity', $available_capacity)
-                ->orWhere("location_start", "LIKE", "%{$location_start}%")
-                ->orWhere("location_start", "LIKE", "%{$location_end}%")
+                ->orWhere("location_start", $location_start)
+                ->orWhere("location_start", $location_end)
                 ->orWhere('price_child', $price_child)
                 ->whereBetween('price_adult', [
                     $price_adult1,
