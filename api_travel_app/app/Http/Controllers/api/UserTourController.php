@@ -40,46 +40,51 @@ class UserTourController extends Controller
         $date_to = $request->input('date_to');
         $date_from = $request->input('date_from');
         $price_adult = $request->input('price_adult');
-        $price_child = $request->input('price_adult');
+        $price_child = $request->input('price_child');
         $location_start = $request->input('location_start');
         $location_end = $request->input('location_end');
         $available_capacity = $request->input('available_capacity');
+        $vehicle = $request->input('vehicle');
 
+        $price_adult1 = $request->input('price_adult1');
+        $price_adult2 = $request->input('price_adult2', 30000000);
         $fillter_tour = $request->input('fillter_tour');
-        $type = $request->input('type', 'ASC');
 
-        $avaiable_tour = tour::get();
-        foreach ($avaiable_tour as $avaiable) {
-            $avaiable_slot[] = $avaiable->available_capacity;
+
+        if ($price_adult1 && $price_adult2) {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->where('price_adult1', '>=', $price_adult1)
+                ->Where('price_adult2', '<=', $price_adult2)
+                ->get();
+        } else {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->where('price_adult1', '>=', $price_adult1)
+                ->where('price_adult2', '<=', $price_adult2)
+                ->get();
         }
+
 
         if ($date) {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->where('created_at', $date)
-                ->orWhere('vehicle_id', $vehicle)
+                ->where('capacity', '>', 0)
                 ->get();
         }
 
         if ($vehicle) {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->where('vehicle_id', $vehicle)
+                ->where('capacity', '>', 0)
                 ->get();
         }
 
-        if ($date_to && $date_from) {
+        if ($date_from) {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->whereBetween('date_to', [
-                    'date_to' => $date_to,
-                    'date_from' => $date_from
-                ])
+                ->where('date_from', $date_from)
+                ->where('capacity', '>', 0)
                 ->get();
         }
 
-        // if($price){
-        //     $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-        //     ->where('price', $price)
-        //     ->get();
-        // }
 
 
         //search in start_location_id
@@ -96,33 +101,16 @@ class UserTourController extends Controller
                 ->get();
         }
 
-        // if($type == 'price_audlt'){
-        //     $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-        //     ->where('price_adult', $price_adult)
-        //     ->get();
-        // }
-
-        // if($type == 'price_child'){
-        //     $tour = tour::with(['vehicle', 'images','start_location','end_location'])
-        //     ->where('price_child',$price_child)
-        //     ->get();
-        // }
-
-        if ($type == 'available_capacity') {
-            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->orderby('available_capacity', 'DESC')
-                ->get();
-        }
 
         if ($fillter_tour) {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->where('created_at', $date)
                 ->orWhere('vehicle_id', $vehicle)
-                ->orwhere('available_capacity', $available_capacity)
-                ->orwhere("location_start", "LIKE", "%{$location_start}%")
-                ->orwhere("location_start", "LIKE", "%{$location_end}%")
-                ->orwhere('price_child', $price_child)
-                ->orwhere('price_adult', $price_adult)
+                ->orWhere('available_capacity', $available_capacity)
+                ->orWhere("location_start", "LIKE", "%{$location_start}%")
+                ->orWhere("location_start", "LIKE", "%{$location_end}%")
+                ->orWhere('price_child', $price_child)
+                ->orWhere('price_adult', $price_adult)
                 ->orderby('created_at', 'DESC')
                 ->get();
         } else {
