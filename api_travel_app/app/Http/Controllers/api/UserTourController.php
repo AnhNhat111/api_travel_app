@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\location;
 use Illuminate\Http\Request;
 use App\Models\tour;
+use App\Models\vehicle;
 use Carbon\Carbon;
 
 class UserTourController extends Controller
@@ -45,58 +46,52 @@ class UserTourController extends Controller
         $location_end = $request->input('location_end');
         $available_capacity = $request->input('available_capacity');
         $vehicle = $request->input('vehicle');
+        $type = $request->input('type');
 
         $price_adult1 = $request->input('price_adult1');
         $price_adult2 = $request->input('price_adult2', 30000000);
         $fillter_tour = $request->input('fillter_tour');
+        $tour = [];
 
-
-        if ($price_adult1 && $price_adult2) {
+        if ($type == 'price_adult') {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->where('price_adult1', '>=', $price_adult1)
-                ->Where('price_adult2', '<=', $price_adult2)
-                ->get();
-        } else {
-            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->where('price_adult1', '>=', $price_adult1)
-                ->where('price_adult2', '<=', $price_adult2)
-                ->get();
+                ->whereBetween('price_adult', [
+                    $price_adult1,
+                    $price_adult2,
+                ])->get();
         }
 
-
-        if ($date) {
+        if ($type == 'date') {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->where('created_at', $date)
+                ->whereDate('date_from', $date)
                 ->where('capacity', '>', 0)
                 ->get();
         }
 
-        if ($vehicle) {
+        if ($type == 'get_vehicle') {
+            $get_vehicle = vehicle::get();
+            return response()->json($get_vehicle);
+        }
+
+        if ($type == 'vehicle') {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->where('vehicle_id', $vehicle)
                 ->where('capacity', '>', 0)
                 ->get();
         }
 
-        if ($date_from) {
-            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->where('date_from', $date_from)
-                ->where('capacity', '>', 0)
-                ->get();
-        }
-
-
 
         //search in start_location_id
         if ($location_start && $location_end) {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->where("location_start", $location_start)
-                ->where("location_start", $location_end)
+                ->where("start_location_id", $location_start)
+                ->where("end_location_id", $location_end)
                 ->get();
         }
 
-        if ($available_capacity) {
+        if ($type == 'available_capacity') {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->where('available_capacity', $available_capacity)
                 ->orderBy('available_capacity', 'DESC')
                 ->get();
         }
@@ -104,13 +99,17 @@ class UserTourController extends Controller
 
         if ($fillter_tour) {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->where('created_at', $date)
+                ->where('date_from', $date)
+                ->where('date_to', $date)
                 ->orWhere('vehicle_id', $vehicle)
                 ->orWhere('available_capacity', $available_capacity)
                 ->orWhere("location_start", "LIKE", "%{$location_start}%")
                 ->orWhere("location_start", "LIKE", "%{$location_end}%")
                 ->orWhere('price_child', $price_child)
-                ->orWhere('price_adult', $price_adult)
+                ->whereBetween('price_adult', [
+                    $price_adult1,
+                    $price_adult2,
+                ])
                 ->orderby('created_at', 'DESC')
                 ->get();
         } else {
