@@ -9,6 +9,7 @@ use App\Http\Controllers\api_admin\TourController;
 use App\Http\Controllers\api_admin\VehicleController;
 
 use App\Http\Controllers\api\UserTourController;
+use App\Http\Controllers\api_admin\AdminBookingController;
 use App\Http\Controllers\api_admin\ImagesController;
 use App\Http\Controllers\api_admin\LocationController;
 
@@ -60,5 +61,6 @@ Route::group([
         Route::resource('location', LocationController::class);
         Route::resource('images', ImagesController::class);
         Route::resource('tour', TourController::class);
+        Route::resource('bokking-tour-admin', AdminBookingController::class);
     });
 });
