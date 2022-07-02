@@ -62,6 +62,6 @@ Route::group([
         Route::resource('location', LocationController::class);
         Route::resource('images', ImagesController::class);
         Route::resource('tour', TourController::class);
-        Route::resource('bokking-tour-admin', AdminBookingController::class);
+        Route::resource('booking-tour-admin', AdminBookingController::class);
     });
 });
