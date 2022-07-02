@@ -18,62 +18,56 @@ class AdminBookingController extends Controller
      */
     public function index(Request $request)
     {
-       
-        $checkRole = role::with(['checkRole'])
-        ->where('role_id', 1)->get();
-       return response()->json($checkRole);
-
         $paid = $request->input('type');
         $date = $request->input('date', Carbon::now());
         $date = Carbon::parse($date);
-     
+
         $type = $request->input('type');
         //type == 1 : is paid
         if ($paid == 1) {
-            if($type == 'month'){
+            if ($type == 'month') {
                 $get_booking = booking::with(['tour', 'user'])
-                ->whereYear('date_of_booking', $date->year)
-                ->whereMonth('date_of_booking', $date->month)
-                ->where('is_paid', 1)
-                ->where('is_confirmed', 1)
-                ->get();
-            }else{
-                if($type == 'week'){
-                    $get_booking = booking::with(['tour', 'user'])
-                    ->whereWeek('date_of_booking', $date->weekOfMonth)
+                    ->whereYear('date_of_booking', $date->year)
+                    ->whereMonth('date_of_booking', $date->month)
                     ->where('is_paid', 1)
                     ->where('is_confirmed', 1)
                     ->get();
-                }else{
+            } else {
+                if ($type == 'week') {
                     $get_booking = booking::with(['tour', 'user'])
-                    ->whereDate('date_of_booking', $date)
-                    ->where('is_paid', 1)
-                    ->where('is_confirmed', 1)
-                    ->get();
+                        ->whereWeek('date_of_booking', $date->weekOfMonth)
+                        ->where('is_paid', 1)
+                        ->where('is_confirmed', 1)
+                        ->get();
+                } else {
+                    $get_booking = booking::with(['tour', 'user'])
+                        ->whereDate('date_of_booking', $date)
+                        ->where('is_paid', 1)
+                        ->where('is_confirmed', 1)
+                        ->get();
                 }
             }
-           
         } else {
-            if($type == 'month'){
+            if ($type == 'month') {
                 $get_booking = booking::with(['tour', 'user'])
-                ->whereYear('date_of_booking', $date->year)
-                ->whereMonth('date_of_booking', $date->month)
-                ->where('is_paid', 2)
-                ->where('is_confirmed', 1)
-                ->get();
-            }else{
-                if($type == 'week'){
-                    $get_booking = booking::with(['tour', 'user'])
-                    ->whereWeek('date_of_booking', $date->weekOfMonth)
+                    ->whereYear('date_of_booking', $date->year)
+                    ->whereMonth('date_of_booking', $date->month)
                     ->where('is_paid', 2)
                     ->where('is_confirmed', 1)
                     ->get();
-                }else{
+            } else {
+                if ($type == 'week') {
                     $get_booking = booking::with(['tour', 'user'])
-                    ->whereDate('date_of_booking', $date)
-                    ->where('is_paid', 2)
-                    ->where('is_confirmed', 1)
-                    ->get();
+                        ->whereWeek('date_of_booking', $date->weekOfMonth)
+                        ->where('is_paid', 2)
+                        ->where('is_confirmed', 1)
+                        ->get();
+                } else {
+                    $get_booking = booking::with(['tour', 'user'])
+                        ->whereDate('date_of_booking', $date)
+                        ->where('is_paid', 2)
+                        ->where('is_confirmed', 1)
+                        ->get();
                 }
             }
         }
