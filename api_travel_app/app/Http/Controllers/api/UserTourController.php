@@ -114,7 +114,7 @@ class UserTourController extends Controller
                 ->get();
         } else {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->get();
+                ->paginate(15);
         }
 
         return response()->json($tour);

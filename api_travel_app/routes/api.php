@@ -12,6 +12,7 @@ use App\Http\Controllers\api\UserTourController;
 use App\Http\Controllers\api_admin\AdminBookingController;
 use App\Http\Controllers\api_admin\ImagesController;
 use App\Http\Controllers\api_admin\LocationController;
+use App\Http\Controllers\api_admin\UserManagement;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,7 @@ Route::group([
 
 
     Route::group([
-        'middleware' => 'auth:api'
+        // 'middleware' => 'auth:api'
     ], function () {
 
         Route::get('logout', [AuthController::class, 'logout']);
@@ -53,7 +54,7 @@ Route::group([
         Route::get('user-location', [UserTourController::class, 'get_location']);
         Route::get('user-location-tour/{id}', [UserTourController::class, 'get_tour_in_location']);
         Route::get('by_tour/{id}', [UserTourController::class, 'get_tour_by_id']);
-
+        Route::resource('get-all-user', UserManagement::class);
 
         Route::post('active-code', [AuthController::class, 'ActiveUser']);
         Route::post('forgot-password', [AuthController::class, 'forgotpassword']);

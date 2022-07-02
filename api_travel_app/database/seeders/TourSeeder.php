@@ -20,13 +20,13 @@ class TourSeeder extends Seeder
             'Chen Sea Resort &Spa Phu Quoc',
             'Chez Carole Beach Resort'
         ];
-        $code = "NT" . rand(1000000000, 9999999999);
+
         $faker = Factory::create();
         $limit = 100;
 
         for ($i = 0; $i < $limit; $i++) {
             DB::table('tours')->insert([
-                'code' => $code,
+                'code' => "NT" . rand(1000000000, 9999999999),
                 'type_id' => rand(1, 4),
                 'promotion_id' => 1,
                 'hotel' => array_rand($hotel),
