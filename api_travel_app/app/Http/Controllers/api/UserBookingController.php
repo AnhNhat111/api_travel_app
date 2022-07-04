@@ -101,13 +101,11 @@ class UserBookingController extends Controller
         if ($booking) {
             $date = Carbon::now()->format('Y-m-d h:m:s');
             $booking->date_of_payment = $date;
-            $booking->is_paid = $request->input('is_paid', 1);
+            $booking->is_paid = $request->input('is_paid', 2);
             $booking->is_confirmed = $request->input('is_confirmed', 1);
             $booking->status = $request->input('status', 1);
             $booking->quantity_child = $request->input('quantity_child', $booking->quantity_child);
-            $booking->unit_price_child = $request->input('unit_price_child', $booking->unit_price_child);
             $booking->quantity_adult = $request->input('quantity_adult', $booking->quantity_adult);
-            $booking->unit_price_adult = $request->input('unit_price_adult', $booking->unit_price_adult);
 
             $data = $booking;
         }
