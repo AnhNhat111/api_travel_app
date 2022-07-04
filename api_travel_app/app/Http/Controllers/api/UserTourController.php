@@ -59,6 +59,7 @@ class UserTourController extends Controller
                     $price_adult1,
                     $price_adult2,
                 ])->get();
+            return response()->json($tour);
         }
 
         if ($type == 'date') {
@@ -66,11 +67,7 @@ class UserTourController extends Controller
                 ->whereDate('date_from', $date)
                 ->where('capacity', '>', 0)
                 ->get();
-        }
-
-        if ($type == 'get_vehicle') {
-            $get_vehicle = vehicle::get();
-            return response()->json($get_vehicle);
+            return response()->json($tour);
         }
 
         if ($type == 'vehicle') {
@@ -78,6 +75,7 @@ class UserTourController extends Controller
                 ->where('vehicle_id', $vehicle)
                 ->where('capacity', '>', 0)
                 ->get();
+            return response()->json($tour);
         }
 
 
@@ -87,6 +85,7 @@ class UserTourController extends Controller
                 ->where("start_location_id", $location_start)
                 ->where("end_location_id", $location_end)
                 ->get();
+            return response()->json($tour);
         }
 
         if ($type == 'available_capacity') {
@@ -94,6 +93,7 @@ class UserTourController extends Controller
                 ->where('available_capacity', $available_capacity)
                 ->orderBy('available_capacity', 'DESC')
                 ->get();
+            return response()->json($tour);
         }
 
 
@@ -112,6 +112,7 @@ class UserTourController extends Controller
                 ])
                 ->orderby('created_at', 'DESC')
                 ->get();
+            return response()->json($tour);
         } else {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->paginate(15);
