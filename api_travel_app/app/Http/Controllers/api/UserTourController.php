@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\booking;
 use App\Models\location;
 use Illuminate\Http\Request;
 use App\Models\tour;
@@ -97,7 +98,7 @@ class UserTourController extends Controller
         }
 
 
-        if ($fillter_tour) {
+        if ($type == "fillter") {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->where('date_from', $date)
                 ->where('date_to', $date)
@@ -139,11 +140,57 @@ class UserTourController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $booking_id)
     {
-        //
+        $tour_id = $request->input('tour_id');
+
+        $total_booking_quantity = booking::where('id', $booking_id)
+            ->select('quantity')
+            ->first();
+        $available_capacity = tour::where('id', $tour_id)
+            ->select('available_capacity')
+            ->first();
+
+        (int) $update_quantity = (int) $available_capacity->available_capacity - (int)$total_booking_quantity->quantity;
+
+        $TUpdate = tour::find($tour_id);
+        if ($TUpdate) {
+            $TUpdate->available_capacity = $update_quantity ?? $TUpdate->available_capacity;
+            $TUpdate->save();
+        }
+
+        return response()->json($TUpdate);
     }
 
+    public function update_user_booking(Request $request, $booking_id)
+    {
+        $tour_id = $request->input('tour_id');
+        $quantity_current = $request->input('quantity_current');
+
+        $total_booking_quantity = booking::where('id', $booking_id)
+            ->select('quantity')
+            ->first();
+        $available_capacity = tour::where('id', $tour_id)
+            ->select('available_capacity')
+            ->first();
+
+        (int) $now_quantity = (int) $available_capacity->available_capacity + (int)$total_booking_quantity->quantity;
+
+        $update_quantity_current = $now_quantity - $quantity_current;
+
+        $TUpdate = tour::find($tour_id);
+        if ($TUpdate) {
+            $TUpdate->available_capacity = $update_quantity_current ?? $TUpdate->available_capacity;
+            $TUpdate->save();
+        }
+        $Update_booking = booking::find($booking_id);
+        if ($Update_booking) {
+            $Update_booking->quantity = $quantity_current ?? $TUpdate->quantity;
+            $Update_booking->save();
+        }
+
+        return response()->json($TUpdate);
+    }
     /**
      * Remove the specified resource from storage.
      *
