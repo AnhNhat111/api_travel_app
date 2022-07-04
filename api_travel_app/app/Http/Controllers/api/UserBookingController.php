@@ -104,6 +104,7 @@ class UserBookingController extends Controller
             $booking->is_paid = $request->input('is_paid', 2);
             $booking->is_confirmed = $request->input('is_confirmed', 1);
             $booking->status = $request->input('status', 1);
+
             $booking->quantity_child = $request->input('quantity_child', $booking->quantity_child);
             $booking->quantity_adult = $request->input('quantity_adult', $booking->quantity_adult);
 

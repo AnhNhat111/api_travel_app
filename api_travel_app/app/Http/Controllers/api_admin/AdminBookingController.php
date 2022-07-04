@@ -65,7 +65,6 @@ class AdminBookingController extends Controller
                         ->get();
                 } else {
                     $get_booking = booking::with(['tour', 'user'])
-                        ->whereDate('date_of_booking', $date)
                         ->where('is_paid', 2)
                         ->where('is_confirmed', 1)
                         ->get();

@@ -60,7 +60,6 @@ class UserTourController extends Controller
                     $price_adult1,
                     $price_adult2,
                 ])->get();
-            return response()->json($tour);
         }
 
         if ($type == 'date') {
@@ -76,7 +75,6 @@ class UserTourController extends Controller
                 ->where('vehicle_id', $vehicle)
                 ->where('capacity', '>', 0)
                 ->get();
-            return response()->json($tour);
         }
 
 
@@ -86,7 +84,6 @@ class UserTourController extends Controller
                 ->where("start_location_id", $location_start)
                 ->where("end_location_id", $location_end)
                 ->get();
-            return response()->json($tour);
         }
 
         if ($type == 'available_capacity') {
@@ -94,7 +91,6 @@ class UserTourController extends Controller
                 ->where('available_capacity', $available_capacity)
                 ->orderBy('available_capacity', 'DESC')
                 ->get();
-            return response()->json($tour);
         }
 
 
@@ -156,6 +152,7 @@ class UserTourController extends Controller
         $TUpdate = tour::find($tour_id);
         if ($TUpdate) {
             $TUpdate->available_capacity = $update_quantity ?? $TUpdate->available_capacity;
+
             $TUpdate->save();
         }
 
@@ -168,7 +165,7 @@ class UserTourController extends Controller
         $quantity_current = $request->input('quantity_current');
 
         $total_booking_quantity = booking::where('id', $booking_id)
-            ->select('quantity')
+            ->select('quantity', 'quantity_child', 'quantity_adult')
             ->first();
         $available_capacity = tour::where('id', $tour_id)
             ->select('available_capacity')
@@ -186,9 +183,15 @@ class UserTourController extends Controller
         $Update_booking = booking::find($booking_id);
         if ($Update_booking) {
             $Update_booking->quantity = $quantity_current ?? $TUpdate->quantity;
+            $Update_booking->quantity_child = $request->input('quantity_child') ?? $TUpdate->quantity_child;
+            $Update_booking->quantity_adult = $request->input('quantity_adult') ?? $TUpdate->quantity_adult;
+
+            $Update_booking->unit_price_child = $request->input('unit_price_child') ?? $TUpdate->quantity_child;
+            $Update_booking->unit_price_adult = $request->input('unit_price_adult') ?? $TUpdate->quantity_adult;
+            $Update_booking->total_price = $request->input('total_price') ?? $TUpdate->quantity_adult;
             $Update_booking->save();
         }
-
+        $TUpdate->setAttribute("update_booking", $Update_booking);
         return response()->json($TUpdate);
     }
     /**
