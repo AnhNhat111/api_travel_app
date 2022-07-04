@@ -12,6 +12,7 @@ use App\Http\Controllers\api\UserTourController;
 use App\Http\Controllers\api_admin\AdminBookingController;
 use App\Http\Controllers\api_admin\ImagesController;
 use App\Http\Controllers\api_admin\LocationController;
+use App\Http\Controllers\api_admin\StatisticalController;
 use App\Http\Controllers\api_admin\UserManagement;
 
 /*
@@ -63,5 +64,6 @@ Route::group([
         Route::resource('images', ImagesController::class);
         Route::resource('tour', TourController::class);
         Route::resource('booking-tour-admin', AdminBookingController::class);
+        Route::get('statistical', [StatisticalController::class, 'statistical_tour']);
     });
 });
