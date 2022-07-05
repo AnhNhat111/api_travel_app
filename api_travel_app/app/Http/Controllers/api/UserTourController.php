@@ -60,6 +60,7 @@ class UserTourController extends Controller
                     $price_adult1,
                     $price_adult2,
                 ])->get();
+            return response()->json($tour);
         }
 
         if ($type == 'date') {
@@ -76,6 +77,7 @@ class UserTourController extends Controller
                 ->where('vehicle_id', $vehicle)
                 ->where('capacity', '>', 0)
                 ->get();
+            return response()->json($tour);
         }
 
 
@@ -85,6 +87,7 @@ class UserTourController extends Controller
                 ->where("start_location_id", $location_start)
                 ->where("end_location_id", $location_end)
                 ->get();
+            return response()->json($tour);
         }
 
         if ($type == 'available_capacity') {
@@ -92,6 +95,7 @@ class UserTourController extends Controller
                 ->where('available_capacity', $available_capacity)
                 ->orderBy('available_capacity', 'DESC')
                 ->get();
+            return response()->json($tour);
         }
 
 
