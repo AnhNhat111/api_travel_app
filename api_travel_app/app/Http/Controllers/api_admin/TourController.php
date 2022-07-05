@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api_admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\booking;
 use Illuminate\Http\Request;
 use App\Models\tour;
 use Validator;
@@ -213,5 +214,12 @@ class TourController extends Controller
 
 
         return response()->json($data);
+    }
+
+    public function hot_tour(Request $request)
+    {
+
+        $booking = booking::where('is_confirmed', 1)->where('is_paid', 1)->select('tour_id')->get();
+        return response()->json($booking);
     }
 }
