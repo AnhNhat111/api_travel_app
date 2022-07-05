@@ -19,7 +19,7 @@ class AdminBookingController extends Controller
     public function index(Request $request)
     {
 
-        $paid = $request->input('type');
+        $paid = $request->input('paid');
         $date = $request->input('date', Carbon::now());
         $date = Carbon::parse($date);
 
