@@ -9,8 +9,8 @@ class images extends Model
 {
     use HasFactory;
     protected $primary = 'id';
-    protected $fillable =[
-        'tout_id',
+    protected $fillable = [
+        'tour_id',
         'image_path',
         'name'
     ];

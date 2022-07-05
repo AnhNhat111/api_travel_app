@@ -15,7 +15,7 @@ class UserManagement extends Controller
      */
     public function index()
     {
-        $get_user = User::get();
+        $get_user = User::paginate(15);
         return response()->json($get_user);
     }
 
