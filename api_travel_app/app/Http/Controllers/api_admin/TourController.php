@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\tour;
 use Validator;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\DB;
 
 class TourController extends Controller
 {
@@ -201,10 +201,10 @@ class TourController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $ids)
+    public function destroy($id)
     {
-        $ids = $request->input('ids');
-        $delete = Shift::whereIn('id', $ids);
+
+        $delete = tour::where('id', $id);
 
         $data = $delete->get();
 
@@ -218,8 +218,19 @@ class TourController extends Controller
 
     public function hot_tour(Request $request)
     {
+        $date = $request->input('date', Carbon::now());
+        $date = Carbon::parse($date);
+        $bookings = booking::with(['tour' => function ($query) {
+            $query->with('start_location', 'end_location');
+        }])->where('is_confirmed', 1)
+            ->where('is_paid', 1)
+            ->whereYear('date_of_booking', $date->year)
+            ->whereMonth('date_of_booking', $date->month)
+            ->select(
+                'tour_id',
+                DB::raw("COUNT(*) as total_book")
+            )->groupBy('tour_id')->orderBy('total_book', 'desc')->get();
 
-        $booking = booking::where('is_confirmed', 1)->where('is_paid', 1)->select('tour_id')->get();
-        return response()->json($booking);
+        return response()->json($bookings);
     }
 }

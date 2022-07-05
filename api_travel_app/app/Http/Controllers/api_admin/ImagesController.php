@@ -17,8 +17,8 @@ class ImagesController extends Controller
      */
     public function index()
     {
-        $data = imgaes::get()->sortBy('name')->paginate(15);
-        return $data;
+        $data = images::get();
+        return response()->json($data);
     }
 
     /**

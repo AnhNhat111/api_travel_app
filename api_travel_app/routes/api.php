@@ -64,7 +64,10 @@ Route::group([
         Route::resource('location', LocationController::class);
         Route::resource('images', ImagesController::class);
         Route::resource('tour', TourController::class);
+
         Route::get('hot-tour', [TourController::class, 'hot_tour']);
+        Route::get('hot-location', [TourController::class, 'hot_location']);
+
         Route::resource('booking-tour-admin', AdminBookingController::class);
         Route::get('statistical', [StatisticalController::class, 'statistical_tour']);
     });

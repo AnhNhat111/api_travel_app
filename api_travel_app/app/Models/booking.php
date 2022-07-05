@@ -27,11 +27,23 @@ class booking extends Model
     ];
     protected $timestamp = true;
 
-    public function tour(){
+    public function tour()
+    {
         return $this->hasMany(tour::class, 'id', 'tour_id');
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function start_location()
+    {
+        return $this->hasOne(location::class, "id", "start_location_id");
+    }
+
+    public function end_location()
+    {
+        return $this->hasOne(location::class, "id", "end_location_id");
     }
 }
