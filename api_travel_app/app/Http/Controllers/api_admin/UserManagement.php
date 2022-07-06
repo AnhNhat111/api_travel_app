@@ -82,6 +82,14 @@ class UserManagement extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete = User::where('id', $id);
+
+        $data = $delete->get();
+
+        if (count($data) > 0) {
+            $delete->delete();
+        }
+
+        return response()->json($data);
     }
 }
