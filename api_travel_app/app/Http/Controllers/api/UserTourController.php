@@ -65,7 +65,7 @@ class UserTourController extends Controller
 
         if ($type == 'date_to') {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->whereDate('date_to', $date_to)
+                ->whereBetween('date_to', [$date_to, $date_from])
                 ->where('capacity', '>', 0)
                 ->get();
             return response()->json($tour);
@@ -73,8 +73,15 @@ class UserTourController extends Controller
 
         if ($type == 'date_from') {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                // ->whereDate('date_to', $date_to)
-                ->WhereDate('date_from', $date_from)
+                ->whereBetween('date_from', [$date_to, $date_from])
+                ->where('capacity', '>', 0)
+                ->get();
+            return response()->json($tour);
+        }
+
+        if ($type == 'date') {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->whereBetween('date_to', [$date_to, $date_from])
                 ->where('capacity', '>', 0)
                 ->get();
             return response()->json($tour);
