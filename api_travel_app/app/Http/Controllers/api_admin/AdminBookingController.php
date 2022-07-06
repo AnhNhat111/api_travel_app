@@ -74,4 +74,17 @@ class AdminBookingController extends Controller
         }
         return response()->json($get_booking);
     }
+
+    public function destroy($id)
+    {
+        $delete = booking::where('id', $id);
+
+        $data = $delete->get();
+
+        if (count($data) > 0) {
+            $delete->delete();
+        }
+
+        return response()->json($data);
+    }
 }

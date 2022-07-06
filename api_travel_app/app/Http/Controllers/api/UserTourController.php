@@ -39,7 +39,7 @@ class UserTourController extends Controller
     {
         $date = $request->input('date', Carbon::now());
         $vehicle = $request->input('vehicle');
-        $date_to = $request->input('date_to');
+        $date_to = $request->input('date_to', Carbon::now());
         $date_from = $request->input('date_from');
         $price_adult = $request->input('price_adult');
         $price_child = $request->input('price_child');
@@ -63,10 +63,18 @@ class UserTourController extends Controller
             return response()->json($tour);
         }
 
-        if ($type == 'date') {
+        if ($type == 'date_to') {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->whereDate('date_from', $date_from)
                 ->whereDate('date_to', $date_to)
+                ->where('capacity', '>', 0)
+                ->get();
+            return response()->json($tour);
+        }
+
+        if ($type == 'date_from') {
+            $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                // ->whereDate('date_to', $date_to)
+                ->WhereDate('date_from', $date_from)
                 ->where('capacity', '>', 0)
                 ->get();
             return response()->json($tour);
