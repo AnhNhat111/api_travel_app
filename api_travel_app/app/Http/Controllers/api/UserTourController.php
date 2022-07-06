@@ -107,7 +107,7 @@ class UserTourController extends Controller
 
         if ($type == 'available_capacity') {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
-                ->where('available_capacity', $available_capacity)
+                ->whereBetween('available_capacity', [0, $available_capacity])
                 ->orderBy('available_capacity', 'DESC')
                 ->get();
             return response()->json($tour);
