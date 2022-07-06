@@ -37,12 +37,13 @@ class ResetPasswordController extends Controller
     {
         $type = $request->input("type");
         if ($type === 1) {
-            $TUpdate = User::find(Auth::user()->id);
 
+            $TUpdate = User::find(Auth::user()->id);
             $TUpdate->name = $request->input('name', $TUpdate->name);
             $TUpdate->avatar = $request->input('avatar', $TUpdate->avatar);
             $TUpdate->gender = $request->input('gender', $TUpdate->gender);
             $TUpdate->birthday = $request->input('birthday', $TUpdate->birthday);
+            $TUpdate->save();
             return response()->json($TUpdate);
         }
         // $change_infor =  User::find(auth()->user()->id)->update([

@@ -37,7 +37,24 @@ class UserManagement extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+        ]);
+        $user = new User([
+            'name' => $request->name,
+            'email' => $request->email,
+            'uid' => '',
+            'password' => bcrypt(000000),
+            'avatar' => "images",
+            'phone' => $request->input('phone'),
+            'gender' => $request->input('gender'),
+            'birthday' => $request->input('birth_day'),
+            'status' => 1,
+            'login_method_id' => 1,
+        ]);
+        $user->save();
+        return response()->json($user);
     }
 
     /**
