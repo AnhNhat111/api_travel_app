@@ -38,11 +38,12 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
     Route::post('social-netwoking', [AuthController::class, 'socialnetwoking']);
     Route::post('login', [AuthController::class, 'login']);
+    Route::post('active-code', [AuthController::class, 'ActiveUser']);
 
 
 
     Route::group([
-        'middleware' => 'auth:api'
+        // 'middleware' => 'auth:api'
     ], function () {
 
         Route::get('logout', [AuthController::class, 'logout']);
@@ -58,7 +59,6 @@ Route::group([
         Route::get('by_tour/{id}', [UserTourController::class, 'get_tour_by_id']);
         Route::resource('get-all-user', UserManagement::class);
 
-        Route::post('active-code', [AuthController::class, 'ActiveUser']);
         Route::post('forgot-password', [AuthController::class, 'forgotpassword']);
         Route::resource('vehicle', VehicleController::class);
         Route::resource('location', LocationController::class);
