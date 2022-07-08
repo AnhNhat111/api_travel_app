@@ -141,7 +141,7 @@ class AuthController extends Controller
 
     public function ActiveUser(Request $request)
     {
-        $type = $request->input('type');;
+        $type = $request->input('type');
         $code_active = $request->input('code_active');
         $email = $request->input('email');
 
@@ -150,7 +150,6 @@ class AuthController extends Controller
                 'email' => $email,
                 'code' => $code_active,
             ])->first();
-
             $dateNow = Carbon::now();
 
             if ($check) {
@@ -158,7 +157,7 @@ class AuthController extends Controller
 
                 if ($dateCheck >= $dateNow) {
                     $check->delete();
-                    return response()->json(['message' => 'success']);
+                    return response()->json(['message' => 'active success']);
                 } else {
                     return response()->json(['message' => 'error']);
                 }
