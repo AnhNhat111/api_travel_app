@@ -52,7 +52,7 @@ Route::group([
         Route::post('change-infor', [ResetPasswordController::class, 'changeInformation']);
         Route::apiResource('booking-tour', UserBookingController::class);
         Route::resource('user-tour', UserTourController::class);
-        Route::put('upadte-user-tour/{id}', [UserTourController::class, 'update_user_booking']);
+        Route::put('update-user-tour/{id}', [UserTourController::class, 'update_user_booking']);
 
         Route::get('user-location', [UserTourController::class, 'get_location']);
         Route::get('user-location-tour/{id}', [UserTourController::class, 'get_tour_in_location']);

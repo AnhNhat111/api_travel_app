@@ -74,7 +74,11 @@ class ResetPasswordController extends Controller
             $check_pass = Hash::check($current_password, Auth::user()->password);
             if ($check_pass) {
                 $change =  User::find(auth()->user()->id)->update(['password' => Hash::make($new_password)]);
-                return response()->json("success");
+                return response()->json(["message" => "success"]);
+            } else {
+                return response()->json([
+                    "message" => "Invalid old password"
+                ]);
             }
         }
     }
