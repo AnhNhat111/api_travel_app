@@ -32,8 +32,7 @@ class UserBookingController extends Controller
 
     public function index(Request $request)
     {
-        $type = $request->input('type', 0);
-
+        $type = $request->input('type', 2);
         //type == 1 : is paid
         if ($type == 1) {
             $get_booking = booking::with(['user', 'tour'])
@@ -44,7 +43,7 @@ class UserBookingController extends Controller
         } else {
             $get_booking = booking::with(['user', 'tour'])
                 ->where('user_id', auth()->user()->id)
-                ->where('is_paid', 1)
+                ->where('is_paid', 2)
                 ->where('is_confirmed', 2)
                 ->get();
         }
