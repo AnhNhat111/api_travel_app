@@ -40,6 +40,7 @@ class ResetPasswordController extends Controller
 
             $TUpdate = User::find(Auth::user()->id);
             $TUpdate->name = $request->input('name', $TUpdate->name);
+            $TUpdate->phone = $request->input('phone', $TUpdate->phone);
             $TUpdate->avatar = $request->input('avatar', $TUpdate->avatar);
             $TUpdate->gender = $request->input('gender', $TUpdate->gender);
             $TUpdate->birthday = $request->input('birthday', $TUpdate->birthday);
