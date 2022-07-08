@@ -168,6 +168,7 @@ class TourController extends Controller
             $TUpdate = tour::find($id);
             // $TUpdate->code = isset($request['code']) ? $request['code'] : $TUpdate->code;
             if ($TUpdate) {
+                $TUpdate->code = $TUpdate->code;
                 $TUpdate->name = $request->input('name', $TUpdate->name);
                 $TUpdate->date_to = $request->input('date_to', $TUpdate->date_to);
                 $TUpdate->date_from = $request->input('date_from', $TUpdate->date_from);
