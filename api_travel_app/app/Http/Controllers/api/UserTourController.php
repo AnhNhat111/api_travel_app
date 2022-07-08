@@ -187,6 +187,7 @@ class UserTourController extends Controller
         $total_booking_quantity = booking::where('id', $booking_id)
             ->select('quantity', 'quantity_child', 'quantity_adult')
             ->first();
+
         $available_capacity = tour::where('id', $tour_id)
             ->select('available_capacity')
             ->first();
