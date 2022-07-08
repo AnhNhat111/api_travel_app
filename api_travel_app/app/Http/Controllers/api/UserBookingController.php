@@ -44,7 +44,7 @@ class UserBookingController extends Controller
             $get_booking = booking::with(['user', 'tour'])
                 ->where('user_id', auth()->user()->id)
                 ->where('is_paid', 2)
-                ->where('is_confirmed', 2)
+                ->where('is_confirmed', 1)
                 ->get();
         }
         return response()->json($get_booking);
