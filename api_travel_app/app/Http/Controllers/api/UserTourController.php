@@ -23,14 +23,32 @@ class UserTourController extends Controller
         $search = "";
         $search = $request->input("key");
 
-        if (!empty($request->input("key"))) {
-            $search = $request->input("key");
+        $search = explode(' ', $search);
+        $count_search = count($search);
+        $search = join(' ', $search);
+
+        $dataALL = [];
+        $dataID = [];
+        for ($i = 1; $i <= $count_search; $i++) {
+            $data_get = tour::where('name', 'LIKE', '%' . $search . '%')
+                ->orderBy('updated_at', 'desc')
+                ->get();
+
+            if (($count_search - $i) != 0) {
+                $search = explode(' ', $search, -1);
+                $search = join(' ', $search);
+            }
+
+            foreach ($data_get as $item) {
+                $checkID = in_array($item->id, $dataID);
+                if (!$checkID) {
+                    $dataID[] = $item->id;
+                    $dataALL[] = $item;
+                }
+            }
         }
 
-        $data = tour::orWhere("code", $search)
-            ->where("name", "LIKE", "%{$search}%")->orderBy("id", "DESC")->get();
-
-        return response()->json(['message' => 'success', 'data' => $data]);
+        return response()->json($dataALL);
     }
 
     public function index(Request $request)
@@ -179,6 +197,7 @@ class UserTourController extends Controller
 
     public function update_user_booking(Request $request, $booking_id)
     {
+
         $tour_id = $request->input('tour_id');
         $quantity_current = $request->input('quantity_current');
 
