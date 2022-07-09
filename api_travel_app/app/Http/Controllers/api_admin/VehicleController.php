@@ -17,7 +17,7 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        $data = vehicle::paginate(15)->sortBy('name');
+        $data = vehicle::get();
         return response()->json($data);
     }
 
