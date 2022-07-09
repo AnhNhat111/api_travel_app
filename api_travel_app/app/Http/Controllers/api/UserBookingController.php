@@ -66,7 +66,6 @@ class UserBookingController extends Controller
             'quantity_adult' => 'required',
             'unit_price_child' => 'required',
             'unit_price_adult' => 'required',
-            'date_of_payment' => 'required',
             'booking_details' => 'required',
             'status' => 'required'
         ]);

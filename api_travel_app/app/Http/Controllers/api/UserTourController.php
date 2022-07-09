@@ -22,14 +22,12 @@ class UserTourController extends Controller
     {
         $search = "";
         $search = $request->input("key");
-        $shop_id = $request->input('shopId');
 
         if (!empty($request->input("key"))) {
             $search = $request->input("key");
         }
 
-        $data = tour::where('shop_id', $shop_id)
-            ->orWhere("code", $search)
+        $data = tour::orWhere("code", $search)
             ->where("name", "LIKE", "%{$search}%")->orderBy("id", "DESC")->get();
 
         return response()->json(['message' => 'success', 'data' => $data]);
