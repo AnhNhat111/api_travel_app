@@ -60,7 +60,6 @@ class UserBookingController extends Controller
         $validator = Validator::make($request->all(), [
             'tour_id' => 'required',
             'is_confirmed' => 'required',
-
             'is_paid' => 'required',
             'quantity_child' => 'required',
             'quantity_adult' => 'required',

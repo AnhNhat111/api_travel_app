@@ -27,7 +27,7 @@ class CreateBookingsTable extends Migration
             $table->integer('is_confirmed');
             $table->dateTime('date_of_booking');
             $table->integer('is_paid');
-            $table->dateTime('date_of_payment');
+            $table->dateTime('date_of_payment')->nullable();
             $table->string('booking_details');
             $table->timestamps();
         });
