@@ -34,10 +34,9 @@ use App\Http\Controllers\api_admin\UserManagement;
 Route::group([
     'prefix' => 'auth'
 ], function () {
-
     Route::post('register', [AuthController::class, 'register']);
-    Route::post('social-netwoking', [AuthController::class, 'socialnetwoking']);
     Route::post('login', [AuthController::class, 'login']);
+    Route::post('social-netwoking', [AuthController::class, 'socialnetwoking']);
     Route::post('active-code', [AuthController::class, 'ActiveUser']);
 
 
@@ -45,9 +44,12 @@ Route::group([
     Route::group([
         'middleware' => 'auth:api'
     ], function () {
-
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('user', [AuthController::class, 'user']);
+        Route::get('valid-token', function () {
+            return true;
+        });
+
         Route::post('change-password', [ResetPasswordController::class, 'changePassword']);
         Route::post('change-infor', [ResetPasswordController::class, 'changeInformation']);
         Route::apiResource('booking-tour', UserBookingController::class);
