@@ -35,13 +35,17 @@ class UserBookingController extends Controller
         $type = $request->input('type', 2);
         //type == 1 : is paid
         if ($type == 1) {
-            $get_booking = booking::with(['user', 'tour'])
+            $get_booking = booking::with(['user', 'tour' => function ($query) {
+                $query->with('start_location', 'end_location', 'images');
+            }])
                 ->where('user_id', auth()->user()->id)
                 ->where('is_paid', 1)
                 ->where('is_confirmed', 1)
                 ->get();
         } else {
-            $get_booking = booking::with(['user', 'tour'])
+            $get_booking = booking::with(['user', 'tour' => function ($query) {
+                $query->with('start_location', 'end_location', 'images');
+            }])
                 ->where('user_id', auth()->user()->id)
                 ->where('is_paid', 2)
                 ->where('is_confirmed', 1)
