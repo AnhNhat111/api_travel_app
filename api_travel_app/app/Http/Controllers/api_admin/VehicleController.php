@@ -126,17 +126,15 @@ class VehicleController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function destroy(Request $request, $ids)
+    public function destroy($id)
     {
-        $ids = $request->input('ids');
-        $delete = vehicle::whereIn('id', $ids);
+        $delete = vehicle::where('id', $id);
 
         $data = $delete->get();
 
         if (count($data) > 0) {
             $delete->delete();
         }
-
 
         return response()->json($data);
     }

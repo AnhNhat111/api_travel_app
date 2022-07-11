@@ -126,17 +126,15 @@ class LocationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $ids)
+    public function destroy($id)
     {
-        $ids = $request->input('ids');
-        $delete = location::whereIn('id', $ids);
+        $delete = location::where('id', $id);
 
         $data = $delete->get();
 
         if (count($data) > 0) {
             $delete->delete();
         }
-
 
         return response()->json($data);
     }
