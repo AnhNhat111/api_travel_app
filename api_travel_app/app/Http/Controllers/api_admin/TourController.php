@@ -222,7 +222,7 @@ class TourController extends Controller
         $date = $request->input('date', Carbon::now());
         $date = Carbon::parse($date);
         $bookings = booking::with(['tour' => function ($query) {
-            $query->with('start_location', 'end_location');
+            $query->with('start_location', 'end_location', 'images');
         }])->where('is_confirmed', 1)
             ->where('is_paid', 1)
             ->whereYear('date_of_booking', $date->year)
