@@ -30,7 +30,8 @@ class UserTourController extends Controller
         $dataALL = [];
         $dataID = [];
         for ($i = 1; $i <= $count_search; $i++) {
-            $data_get = tour::where('name', 'LIKE', '%' . $search . '%')
+            $data_get = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->where('name', 'LIKE', '%' . $search . '%')
                 ->orderBy('updated_at', 'desc')
                 ->get();
 
