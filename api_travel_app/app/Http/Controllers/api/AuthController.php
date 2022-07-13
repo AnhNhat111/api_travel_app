@@ -313,7 +313,8 @@ class AuthController extends Controller
     {
         $email = $request->input('email');
         $new_password = $request->input('new_password');
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $request->email)->where('login_method_id', 1)->get();
+
         if ($user) {
 
             $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);
