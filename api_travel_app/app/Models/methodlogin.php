@@ -9,10 +9,13 @@ class methodlogin extends Model
 {
     use HasFactory;
     protected $primary = 'id';
-    protected $fillable =[
+    protected $fillable = [
         'name',
         'status',
         'date'
     ];
     protected $timestamp = true;
+    protected $casts = [
+        'status' => 'int'
+    ];
 }

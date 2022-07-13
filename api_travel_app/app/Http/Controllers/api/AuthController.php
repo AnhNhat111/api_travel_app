@@ -88,7 +88,6 @@ class AuthController extends Controller
                 'login_method_id' => $request->method_login,
             ]);
             $user->save();
-
             if ($user) {
                 $TNew_role = new role();
 
@@ -119,7 +118,7 @@ class AuthController extends Controller
             'phone' => null,
             'gender' => null,
             'birthday' => null,
-            'status' => 1,
+            'status' =>  1,
             'login_method_id' => 1,
         ]);
         $user->save();
@@ -272,6 +271,7 @@ class AuthController extends Controller
                 if ($request->remember_me)
                     $token->expires_at = Carbon::now()->addWeeks(1);
                 $token->save();
+
                 return response()->json([
                     'user' => auth()->user(),
                     'access_token' => $tokenResult->accessToken,

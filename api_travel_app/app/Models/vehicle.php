@@ -9,9 +9,12 @@ class vehicle extends Model
 {
     use HasFactory;
     protected $primary = 'id';
-    protected $fillable =[
+    protected $fillable = [
         'name',
         'status'
     ];
     protected $timestamp = true;
+    protected $casts = [
+        'status' => 'int',
+    ];
 }

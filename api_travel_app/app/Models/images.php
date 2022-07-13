@@ -15,4 +15,7 @@ class images extends Model
         'name'
     ];
     protected $timestamp = true;
+    protected $casts = [
+        'tour_id' => 'int'
+    ];
 }
