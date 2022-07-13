@@ -38,8 +38,7 @@ Route::group([
     Route::post('login', [AuthController::class, 'login']);
     Route::post('social-netwoking', [AuthController::class, 'socialnetwoking']);
     Route::post('active-code', [AuthController::class, 'ActiveUser']);
-
-
+    Route::post('forgot-password', [AuthController::class, 'forgotpassword']);
 
     Route::group([
         'middleware' => 'auth:api'
@@ -62,7 +61,7 @@ Route::group([
         Route::get('by_tour/{id}', [UserTourController::class, 'get_tour_by_id']);
         Route::resource('get-all-user', UserManagement::class);
 
-        Route::post('forgot-password', [AuthController::class, 'forgotpassword']);
+
         Route::resource('vehicle', VehicleController::class);
         Route::resource('location', LocationController::class);
         Route::resource('images', ImagesController::class);

@@ -138,6 +138,50 @@ class AuthController extends Controller
         ], 201);
     }
 
+    public function sendmail($email)
+    {
+        $delete_active = ActiveUser::where('email', $email)->delete();
+
+        $TNew_Active = new ActiveUser();
+
+        $code = rand(10000, 99999);
+
+        $TNew_Active->email = $email;
+        $TNew_Active->code = $code;
+
+        $TNew_Active->save();
+
+        Mail::send('auth.email.mailfb', [
+            'email' => $TNew_Active->email,
+            'code' => $TNew_Active->code,
+        ], function ($message) use ($TNew_Active) {
+            $message->to($TNew_Active->email, 'User register')->subject('Code active user.');
+        });
+
+        return response()->json(['message' => 'send mail successfully']);
+    }
+
+    public function sendmailforgotpass($email)
+    {
+        $delete_active = ActiveUser::where('email', $email)->delete();
+
+        $TNew_Active = new ActiveUser();
+
+        $code = rand(10000, 99999);
+
+        $TNew_Active->email = $email;
+        $TNew_Active->code = $code;
+
+        $TNew_Active->save();
+
+        Mail::send('auth.email.mailfb', [
+            'email' => $TNew_Active->email,
+            'code' => $TNew_Active->code,
+        ], function ($message) use ($TNew_Active) {
+            $message->to($TNew_Active->email, 'Forgot password')->subject('Code to confirm forgot password.');
+        });
+    }
+
     public function ActiveUser(Request $request)
     {
         $type = $request->input('type');
@@ -168,6 +212,15 @@ class AuthController extends Controller
                 $validator = Validator::make($request->all(), [
                     'email' => 'required|email',
                 ]);
+
+                $user = User::where('email', $request->email)->where('login_method_id', 1)->first();
+
+                if ($user) {
+                    $this->sendmailforgotpass($email);
+                    return response()->json(['message' => 'send mail forgot password successfully']);
+                } else {
+                    return response()->json(['message' => 'User not found']);
+                }
             } else {
                 $validator = Validator::make($request->all(), [
                     'email' => 'required|email|unique:users,email',
@@ -176,28 +229,13 @@ class AuthController extends Controller
             if ($validator->fails()) {
                 return response()->json(['message' => 'error', 'errors' => $validator->errors()]);
             } else {
-                $delete_active = ActiveUser::where('email', $email)->delete();
-
-                $TNew_Active = new ActiveUser();
-
-                $code = rand(10000, 99999);
-
-                $TNew_Active->email = $email;
-                $TNew_Active->code = $code;
-
-                $TNew_Active->save();
-
-                Mail::send('auth.email.mailfb', [
-                    'email' => $TNew_Active->email,
-                    'code' => $TNew_Active->code,
-                ], function ($message) use ($TNew_Active) {
-                    $message->to($TNew_Active->email, 'User register')->subject('Code active user.');
-                });
-
-                return response()->json(['message' => 'send mial successfully']);
+                $this->sendmail($email);
+                return response()->json(['message' => 'send mail register successfully']);
             }
         }
     }
+
+
 
     /**
      * Login user and create token
@@ -309,17 +347,16 @@ class AuthController extends Controller
         return response()->json($request->user());
     }
 
-    public function forgotpassword(Request $request)
-    {
-        $email = $request->input('email');
-        $new_password = $request->input('new_password');
-        $user = User::where('email', $request->email)->where('login_method_id', 1)->get();
+    // public function forgotpassword(Request $request)
+    // {
+    //     $email = $request->input('email');
+    //     $new_password = $request->input('new_password');
+    //     $user = User::where('email', $request->email)->where('login_method_id', 1)->first();
 
-        if ($user) {
-
-            $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);
-            return response()->json(['message' => 'success']);
-        }
-        return response()->json(['message' => 'not found user']);
-    }
+    //     if ($user) {
+    //         $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);
+    //         return response()->json(['message' => 'success']);
+    //     }
+    //     return response()->json(['message' => 'not found user']);
+    // }
 }
