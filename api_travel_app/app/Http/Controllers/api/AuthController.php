@@ -88,7 +88,6 @@ class AuthController extends Controller
                 'login_method_id' => $request->method_login,
             ]);
             $user->save();
-
             if ($user) {
                 $TNew_role = new role();
 
@@ -119,7 +118,7 @@ class AuthController extends Controller
             'phone' => null,
             'gender' => null,
             'birthday' => null,
-            'status' => 1,
+            'status' =>  1,
             'login_method_id' => 1,
         ]);
         $user->save();
@@ -195,7 +194,7 @@ class AuthController extends Controller
                     $message->to($TNew_Active->email, 'User register')->subject('Code active user.');
                 });
 
-                return response()->json(['message' => 'success']);
+                return response()->json(['message' => 'send mial successfully']);
             }
         }
     }
@@ -272,6 +271,7 @@ class AuthController extends Controller
                 if ($request->remember_me)
                     $token->expires_at = Carbon::now()->addWeeks(1);
                 $token->save();
+
                 return response()->json([
                     'user' => auth()->user(),
                     'access_token' => $tokenResult->accessToken,
@@ -313,7 +313,8 @@ class AuthController extends Controller
     {
         $email = $request->input('email');
         $new_password = $request->input('new_password');
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $request->email)->where('login_method_id', 1)->get();
+
         if ($user) {
 
             $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);

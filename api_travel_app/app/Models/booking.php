@@ -27,6 +27,22 @@ class booking extends Model
     ];
     protected $timestamp = true;
 
+    protected $casts = [
+        'user_id' => 'int',
+        'tour_id' => 'int',
+        'status' => 'int',
+        'quantity_child' => 'int',
+        'quantity_adult' => 'int',
+        'quantity' => 'int',
+        'unit_price_child' => 'int',
+        'unit_price_adult' => 'int',
+        'total_price' => 'int',
+        'is_confirmed' => 'int',
+        'is_paid' => 'int',
+        'date_of_payment' => 'datetime',
+        'date_of_booking' => 'datetime',
+    ];
+
     public function tour()
     {
         return $this->hasMany(tour::class, 'id', 'tour_id');

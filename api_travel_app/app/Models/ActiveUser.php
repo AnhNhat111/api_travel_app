@@ -11,4 +11,8 @@ class ActiveUser extends Model
     protected $table = 'active_users';
     protected $primary = 'id';
     protected $timestamp = true;
+
+    protected $casts = [
+        'code' => 'int'
+    ];
 }
