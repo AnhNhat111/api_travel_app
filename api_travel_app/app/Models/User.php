@@ -50,7 +50,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'status' => 'int',
-        'method_login' => 'int',
+        'login_method_id' => 'int',
         'email_verified_at' => 'datetime',
         'gender' => 'int',
         'role_id' => 'int'

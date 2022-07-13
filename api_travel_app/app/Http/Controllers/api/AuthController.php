@@ -194,7 +194,7 @@ class AuthController extends Controller
                     $message->to($TNew_Active->email, 'User register')->subject('Code active user.');
                 });
 
-                return response()->json(['message' => 'success']);
+                return response()->json(['message' => 'send mial successfully']);
             }
         }
     }

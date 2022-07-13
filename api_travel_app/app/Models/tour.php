@@ -32,7 +32,6 @@ class tour extends Model
         'description'
     ];
     protected $casts = [
-        'code' => 'int',
         'price_child' => 'int',
         'price_adult' => 'int',
         'start_location_id' => 'int',
