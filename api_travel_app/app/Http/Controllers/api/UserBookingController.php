@@ -120,12 +120,11 @@ class UserBookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $ids)
+    public function destroy($id)
     {
-        $ids = $request->input('ids');
-        $delete = booking::whereIn('id', $ids);
+        $delete = booking::where('id', $id);
 
-        if ($delete->status == 2) {
+        if ($delete->is_confirmed == 2) {
             $data = $delete->get();
 
             if (count($data) > 0) {
