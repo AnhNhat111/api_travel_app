@@ -43,33 +43,27 @@ class ImagesController extends Controller
         $date = Carbon::now();
         $date_now = $date->format('Ymdhis');
         $data = [];
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
-        } else {
-            if ($images) {
-                foreach ($images as $image) {
 
-                    $TNew = images::create([
-                        'name' => $date_now . $image["name"],
-                        'tour_id' => $image["tour_id"],
-                        'image_path' => $image["image_path"] ?? null
-                    ]);
+        if ($images) {
+            foreach ($images as $image) {
 
-                    $data[] = $TNew;
-                }
-            } else {
                 $TNew = images::create([
-                    'name' => $request["name"],
-                    'tour_id' => $request["tour_id"],
-                    'image_path' => $request["image_path"] ?? null
+                    'name' => $date_now . $image["name"],
+                    'tour_id' => $image["tour_id"],
+                    'image_path' => $image["image_path"] ?? null
                 ]);
-                $data = $TNew;
+
+                $data[] = $TNew;
             }
-            return response()->json($data);
+        } else {
+            $TNew = images::create([
+                'name' => $request["name"],
+                'tour_id' => $request["tour_id"],
+                'image_path' => $request["image_path"] ?? null
+            ]);
+            $data = $TNew;
         }
+        return response()->json($data);
     }
 
     /**
