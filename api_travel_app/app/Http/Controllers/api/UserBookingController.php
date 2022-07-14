@@ -85,7 +85,7 @@ class UserBookingController extends Controller
             'unit_price_adult' => $request->unit_price_adult ?? 0,
             'quantity' => $quantity ?? 0,
             'total_price' => $request->unit_price_child * $request->quantity_child + $request->unit_price_adult * $request->quantity_adult ?? 0,
-            'is_confirmed' => $request->is_confirmed ?? 1,
+            'is_confirmed' => $request->is_confirmed ?? 2,
             'date_of_booking' => $date ?? null,
             'is_paid' => $request->is_paid ?? 0,
             'date_of_payment' => $request->date_of_payment ?? null,
@@ -109,7 +109,9 @@ class UserBookingController extends Controller
             $booking->quantity_child = $request->input('quantity_child', $booking->quantity_child);
             $booking->quantity_adult = $request->input('quantity_adult', $booking->quantity_adult);
 
-            $data = $booking;
+            $data = $booking->save();
+        } else {
+            return response()->json(['message' => 'not found this booking']);
         }
         return response()->json($data);
     }
@@ -122,13 +124,27 @@ class UserBookingController extends Controller
      */
     public function destroy($id)
     {
-        $delete = booking::where('id', $id);
+        $booking = booking::where('id', $id)
+            ->where('is_confirmed', 2)
+            ->first();
 
-        if ($delete->is_confirmed == 2) {
-            $data = $delete->get();
+        if ($booking) {
+            $tour = tour::find($booking->tour_id)->first();
+            if ($tour) {
+                $tour->available_capacity = $tour->available_capacity + $booking->quantity_child + $booking->quantity_adult;
+                $tour->save();
+            } else {
+                return response()->json(['message' => 'not found tour']);
+            }
+        } else {
+            return response()->json(['message' => "booking is not found tour"]);
+        }
+
+        if ($booking->is_confirmed == 2) {
+            $data = $booking->get();
 
             if (count($data) > 0) {
-                $delete->delete();
+                $booking->delete();
             }
         }
         return response()->json($data);
