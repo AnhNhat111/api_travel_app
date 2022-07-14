@@ -347,16 +347,16 @@ class AuthController extends Controller
         return response()->json($request->user());
     }
 
-    // public function forgotpassword(Request $request)
-    // {
-    //     $email = $request->input('email');
-    //     $new_password = $request->input('new_password');
-    //     $user = User::where('email', $request->email)->where('login_method_id', 1)->first();
+    public function forgotpassword(Request $request)
+    {
+        $email = $request->input('email');
+        $new_password = $request->input('new_password');
+        $user = User::where('email', $request->email)->where('login_method_id', 1)->first();
 
-    //     if ($user) {
-    //         $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);
-    //         return response()->json(['message' => 'success']);
-    //     }
-    //     return response()->json(['message' => 'not found user']);
-    // }
+        if ($user) {
+            $change =  User::find($user->id)->update(['password' => Hash::make($new_password)]);
+            return response()->json(['message' => 'success']);
+        }
+        return response()->json(['message' => 'not found user']);
+    }
 }
