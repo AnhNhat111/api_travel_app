@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\CommentController;
 use App\Http\Controllers\api\UserBookingController;
 use App\Http\Controllers\api\ResetPasswordController;
 use App\Http\Controllers\api_admin\TourController;
@@ -55,6 +56,11 @@ Route::group([
         Route::resource('user-tour', UserTourController::class);
         Route::put('update-user-tour/{id}', [UserTourController::class, 'update_user_booking']);
         Route::get('search', [UserTourController::class, 'search']);
+
+        Route::get('get-comment', [CommentController::class, 'fc_get_comment']);
+        Route::post('write-comment', [CommentController::class, 'fc_write_comment']);
+        Route::post('count-emonotion', [CommentController::class, 'fc_create_emonotions']);
+
 
         Route::get('user-location', [UserTourController::class, 'get_location']);
         Route::get('user-location-tour/{id}', [UserTourController::class, 'get_tour_in_location']);

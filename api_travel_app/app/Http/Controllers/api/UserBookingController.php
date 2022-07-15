@@ -48,7 +48,7 @@ class UserBookingController extends Controller
             }])
                 ->where('user_id', auth()->user()->id)
                 ->where('is_paid', 2)
-                ->where('is_confirmed', 1)
+                ->where('is_confirmed', 2)
                 ->get();
         }
         return response()->json($get_booking);
