@@ -289,6 +289,7 @@ class AuthController extends Controller
                         $tokenResult->token->expires_at
                     )->toDateTimeString()
                 ]);
+                return redirect()->intended(route('admin.index'));
             } else {
                 return response()->json([
                     'message' => 'Unauthorized'
