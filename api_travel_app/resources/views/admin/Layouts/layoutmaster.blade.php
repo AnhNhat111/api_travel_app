@@ -10,6 +10,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/admin/images/favicon.png') }}">
     <!-- Custom Stylesheet -->
     <link href="{{ asset('assets/admin/css/style.css') }}" rel="stylesheet">
+    <!-- CSS only -->
+    <link href="{{ asset('assets/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+
 
 </head>
 
@@ -38,17 +42,6 @@
         @include('admin.Layouts.Includes.sidebar')
 
         <div class="content-body">
-
-            <div class="row page-titles mx-0">
-                <div class="col p-md-0">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
-                    </ol>
-                </div>
-            </div>
-
-
             <div class="container-fluid">
                 <!--Phần thân của tamplate-->
             @show
@@ -61,12 +54,15 @@
 
 </div>
 
-<script src="assets/admin/plugins/common/common.min.js"></script>
-<script src="assets/admin/js/custom.min.js"></script>
-<script src="assets/admin/js/settings.js"></script>
-<script src="assets/admin/js/gleek.js"></script>
-<script src="assets/admin/js/styleSwitcher.js"></script>
+<script src="{{ asset('assets/admin/plugins/common/common.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/custom.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/settings.js') }}"></script>
+<script src="{{ asset('assets/admin/js/gleek.js') }}"></script>
+<script src="{{ asset('assets/admin/js/styleSwitcher.js') }}"></script>
 
+<script src="{{ asset('assets/admin/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/admin/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/admin/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
 </body>
 
 </html>

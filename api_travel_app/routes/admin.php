@@ -18,21 +18,12 @@ Route::group([
     Route::post('login', [LoginController::class, 'login'])->name('admin.login.post');
 
     Route::get('index', [LoginController::class, 'index'])->name('admin.index');
-    Route::get('logout', [LoginController::class, 'dangxuat'])->name('admin.logout');
+    Route::get('logout', [LoginController::class, 'logout'])->name('admin.logout');
 
 
     Route::group([
-        'middleware' => 'auth:api'
+        // 'middleware' => 'auth:api'
     ], function () {
-        Route::get('logout', [AuthController::class, 'logout']);
-        Route::get('user', [AuthController::class, 'user']);
-
-        Route::resource('vehicle', VehicleController::class);
-        Route::resource('location', LocationController::class);
-
-        Route::resource('booking-tour-admin', AdminBookingController::class);
-        Route::get('statistical', [StatisticalController::class, 'statistical_tour']);
-
         Route::resource('tour', TourController::class);
         Route::resource('user', UserManagement::class);
     });

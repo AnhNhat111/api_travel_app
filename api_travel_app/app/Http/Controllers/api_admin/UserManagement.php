@@ -15,8 +15,11 @@ class UserManagement extends Controller
      */
     public function index()
     {
-        $get_user = User::paginate(15);
-        return response()->json($get_user);
+        $get_user = User::get();
+
+        return view('admin.pages.quanlytaikhoan.index', [
+            'data' => $get_user
+        ]);
     }
 
     /**

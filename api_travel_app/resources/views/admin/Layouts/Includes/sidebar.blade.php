@@ -7,8 +7,8 @@
                     <i class="icon-speedometer menu-icon"></i><span class="nav-text">Quản lý tài khoản</span>
                 </a>
                 <ul aria-expanded="false">
-                    {{-- <li><a href="{{ route('quan-ly-tai-khoan.index') }}">Danh sách tài khoản</a></li>
-                    <li><a href="{{ route('loaitaikhoan.index') }}">Quản lý loại tài khoản</a></li> --}}
+                    <li><a href="{{ route('user.index') }}">Danh sách tài khoản</a></li>
+                    <li><a href="{{ route('user.index') }}">Quản lý loại tài khoản</a></li>
 
                 </ul>
             </li>
