@@ -12,9 +12,6 @@
     <link href="{{ asset('assets/admin/css/style.css') }}" rel="stylesheet">
     <!-- CSS only -->
     <link href="{{ asset('assets/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
-
-
 </head>
 
 <body>
@@ -41,7 +38,7 @@
         <!--Đây là sidebar-->
         @include('admin.Layouts.Includes.sidebar')
 
-        <div class="content-body">
+        <div class="content-body" style="min-height: 1000px">
             <div class="container-fluid">
                 <!--Phần thân của tamplate-->
             @show
@@ -63,6 +60,7 @@
 <script src="{{ asset('assets/admin/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
+<script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

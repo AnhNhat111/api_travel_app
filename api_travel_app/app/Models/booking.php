@@ -62,4 +62,9 @@ class booking extends Model
     {
         return $this->hasOne(location::class, "id", "end_location_id");
     }
+
+    public function code()
+    {
+        return $this->hasOne(tour::class, 'id', 'tour_id')->select('id', 'code');
+    }
 }
