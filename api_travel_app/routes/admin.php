@@ -26,5 +26,9 @@ Route::group([
     ], function () {
         Route::resource('tour', TourController::class);
         Route::resource('user', UserManagement::class);
+
+        Route::resource('booking', AdminBookingController::class);
+        Route::get('booking-confirmed', [AdminBookingController::class, 'booking_confirmed'])->name('admin.BookingConfirmed');
+        Route::get('booking-not-confirmed', [AdminBookingController::class, 'booking_not_confirmed'])->name('admin.BookingNotConfirmed');
     });
 });
