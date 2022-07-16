@@ -76,7 +76,9 @@ class UserTourController extends Controller
                 ->whereBetween('price_adult', [
                     $price_adult1,
                     $price_adult2,
-                ])->get();
+                ])
+                ->orderBy('updated_at', 'desc')
+                ->get();
             return response()->json($tour);
         }
 
@@ -84,6 +86,7 @@ class UserTourController extends Controller
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->whereBetween('date_to', [$date_to, $date_from])
                 ->where('capacity', '>', 0)
+                ->orderBy('updated_at', 'desc')
                 ->get();
             return response()->json($tour);
         }
@@ -92,6 +95,7 @@ class UserTourController extends Controller
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->whereBetween('date_from', [$date_to, $date_from])
                 ->where('capacity', '>', 0)
+                ->orderBy('updated_at', 'desc')
                 ->get();
             return response()->json($tour);
         }
@@ -100,6 +104,7 @@ class UserTourController extends Controller
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->whereBetween('date_to', [$date_to, $date_from])
                 ->where('capacity', '>', 0)
+                ->orderBy('updated_at', 'desc')
                 ->get();
             return response()->json($tour);
         }
@@ -108,6 +113,7 @@ class UserTourController extends Controller
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->where('vehicle_id', $vehicle)
                 ->where('capacity', '>', 0)
+                ->orderBy('updated_at', 'desc')
                 ->get();
             return response()->json($tour);
         }
@@ -118,6 +124,7 @@ class UserTourController extends Controller
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
                 ->where("start_location_id", $location_start)
                 ->where("end_location_id", $location_end)
+                ->orderBy('updated_at', 'desc')
                 ->get();
             return response()->json($tour);
         }
@@ -149,6 +156,7 @@ class UserTourController extends Controller
             return response()->json($tour);
         } else {
             $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
+                ->orderby('created_at', 'DESC')
                 ->paginate(15);
         }
 

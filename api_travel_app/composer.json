@@ -13,7 +13,9 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "nesbot/carbon": "^2.58",
-        "phpmailer/phpmailer": "^6.6"
+        "phpmailer/phpmailer": "^6.6",
+        "phpviet/laravel-omnipay": "^1.1",
+        "phpviet/omnipay-momo": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
