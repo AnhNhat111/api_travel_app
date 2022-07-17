@@ -289,7 +289,7 @@ class AuthController extends Controller
                         $tokenResult->token->expires_at
                     )->toDateTimeString()
                 ]);
-                return redirect()->intended(route('admin.index'));
+                return redirect()->intended(route('admin.statiscal'));
             } else {
                 return response()->json([
                     'message' => 'Unauthorized'
@@ -304,7 +304,6 @@ class AuthController extends Controller
                     ], 401);
                 }
                 $user = $request->user();
-
                 $tokenResult = $user->createToken('Personal Access Token');
                 $token = $tokenResult->token;
                 if ($request->remember_me)

@@ -138,4 +138,14 @@ class VehicleController extends Controller
 
         return response()->json($data);
     }
+
+
+    // view
+    public function vehicle()
+    {
+        $data = vehicle::get();
+        return view('admin.pages.vehiclemanagement.index', [
+            'data' => $data
+        ]);
+    }
 }

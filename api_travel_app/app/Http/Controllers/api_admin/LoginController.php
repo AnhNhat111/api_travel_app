@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+
+    protected $redirectTo = '/admin';
+
+    // public function __construct()
+    // {
+    //     $this->middleware('guest:admin')->except('logout');
+    // }
+
     public function index()
     {
         return view('admin.pages.login.home');
@@ -31,13 +39,12 @@ class LoginController extends Controller
         $checkEmail = User::where('email', $request->email)->first();
 
         $checkRoleAdmin = role::where('user_id', $checkEmail->id)->first();
-
         if ($checkRoleAdmin->role_id == 1) {
 
             if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                return response()->json([
-                    'message' => 'Unauthorized'
-                ], 401);
+                return back()->withErrors([
+                    'message' => 'The email or password is incorrect, please try again',
+                ]);
             }
             $user = $request->user();
             $tokenResult = $user->createToken('Personal Access Token');
@@ -53,7 +60,11 @@ class LoginController extends Controller
             //         $tokenResult->token->expires_at
             //     )->toDateTimeString()
             // ]);
-            return redirect()->intended(route('admin.index'));
+            return redirect()->intended(route('admin.statiscal'));
+        } else {
+            return back()->withErrors([
+                'message' => 'The email or password is incorrect, please try again',
+            ]);
         }
     }
 
@@ -62,5 +73,12 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         return redirect()->route('admin.login');
+    }
+
+    public function user(Request $request)
+    {
+        return view('admin.Layouts.Includes.header', [
+            'data' => $request->user()
+        ]);
     }
 }
