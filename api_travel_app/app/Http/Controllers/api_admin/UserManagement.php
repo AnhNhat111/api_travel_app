@@ -79,7 +79,7 @@ class UserManagement extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.pages.quanlytaikhoan.edit');
     }
 
     /**

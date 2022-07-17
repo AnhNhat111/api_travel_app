@@ -138,4 +138,14 @@ class LocationController extends Controller
 
         return response()->json($data);
     }
+
+    // view
+
+    public function location()
+    {
+        $data = location::get();
+        return view('admin.pages.locationmanagement.index', [
+            'data' => $data
+        ]);
+    }
 }

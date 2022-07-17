@@ -11,6 +11,9 @@ use App\Http\Controllers\api_admin\TourController;
 use App\Http\Controllers\api_admin\UserManagement;
 use App\Http\Controllers\api_admin\VehicleController;
 
+
+
+
 Route::group([
     'prefix' => '/'
 ], function () {
@@ -20,15 +23,23 @@ Route::group([
     Route::get('index', [LoginController::class, 'index'])->name('admin.index');
     Route::get('logout', [LoginController::class, 'logout'])->name('admin.logout');
 
-
     Route::group([
-        // 'middleware' => 'auth:api'
+        'middleware' => 'auth:admin'
     ], function () {
+        Route::get('/', function () {
+            return view('admin.pages.login.home');
+        })->name('admin.dashboard');
+
         Route::resource('tour', TourController::class);
         Route::resource('user', UserManagement::class);
 
         Route::resource('booking', AdminBookingController::class);
         Route::get('booking-confirmed', [AdminBookingController::class, 'booking_confirmed'])->name('admin.BookingConfirmed');
         Route::get('booking-not-confirmed', [AdminBookingController::class, 'booking_not_confirmed'])->name('admin.BookingNotConfirmed');
+
+        Route::get('location', [LocationController::class, 'location'])->name('admin.location');
+        Route::get('vehicle', [VehicleController::class, 'vehicle'])->name('admin.vehicle');
+        Route::get('statistical', [StatisticalController::class, 'statistical_tour']);
+        Route::get('statistical_month', [StatisticalController::class, 'statistical_month'])->name('admin.statiscal');
     });
 });
