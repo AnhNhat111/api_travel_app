@@ -27,8 +27,8 @@ Route::group([
         'middleware' => 'auth:admin'
     ], function () {
         Route::get('/', function () {
-            return view('admin.pages.login.home');
-        })->name('admin.dashboard');
+            return redirect()->intended(route('admin.statiscal'));
+        });
 
         Route::resource('tour', TourController::class);
         Route::resource('user', UserManagement::class);

@@ -12,7 +12,9 @@
     <link href="{{ asset('assets/admin/css/style.css') }}" rel="stylesheet">
     <!-- CSS only -->
     <link href="{{ asset('assets/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script src="https://kit.fontawesome.com/1d0dc93f6d.js" crossorigin="anonymous"></script>
 </head>

@@ -57,7 +57,7 @@ class UserManagement extends Controller
             'login_method_id' => 1,
         ]);
         $user->save();
-        return response()->json($user);
+        return view('admin.pages.quanlytaikhoan.create');
     }
 
     /**
