@@ -20,7 +20,7 @@ Route::group([
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('admin.login');
     Route::post('login', [LoginController::class, 'login'])->name('admin.login.post');
 
-    Route::get('index', [LoginController::class, 'index'])->name('admin.index');
+    // Route::get('index', [LoginController::class, 'index'])->name('admin.index');
     Route::get('logout', [LoginController::class, 'logout'])->name('admin.logout');
 
     Route::group([
@@ -39,7 +39,8 @@ Route::group([
 
         Route::get('location', [LocationController::class, 'location'])->name('admin.location');
         Route::get('vehicle', [VehicleController::class, 'vehicle'])->name('admin.vehicle');
-        Route::get('statistical', [StatisticalController::class, 'statistical_tour']);
+        Route::get('index', [StatisticalController::class, 'statistical_tour']);
+        Route::get('hot-tour', [TourController::class, 'hot_tour']);
         Route::get('statistical_month', [StatisticalController::class, 'statistical_month'])->name('admin.statiscal');
     });
 });

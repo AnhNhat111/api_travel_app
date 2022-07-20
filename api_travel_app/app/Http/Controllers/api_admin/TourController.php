@@ -22,7 +22,7 @@ class TourController extends Controller
         $tour = tour::with(['vehicle', 'images', 'start_location', 'end_location'])
             ->orderby('created_at', 'DESC')
             ->get();
-        return response()->json($tour);
+        return view('admin.pages.quanlytour.index', ['data' => $tour]);
     }
 
     /**

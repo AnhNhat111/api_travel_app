@@ -11,7 +11,6 @@
     <!-- Custom Stylesheet -->
     <link href="{{ asset('assets/admin/css/style.css') }}" rel="stylesheet">
     <!-- CSS only -->
-    <link href="{{ asset('assets/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -43,8 +42,8 @@
         <!--Đây là sidebar-->
         @include('admin.Layouts.Includes.sidebar')
 
-        <div class="content-body" style="min-height: 1000px">
-            <div class="container-fluid">
+        <div class="content-body">
+            <div class="container-fluid" style="max-height: 600px">
                 <!--Phần thân của tamplate-->
             @show
             @yield('body')
