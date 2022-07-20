@@ -1,7 +1,7 @@
 <div class="nk-sidebar">
     <div class="nk-nav-scroll">
         <ul class="metismenu" id="menu">
-            <li class="nav-label">Trang Quản trị</li>
+            <li class="nav-label" style="padding-top: 40px">Trang Quản trị</li>
             <li class="mega-menu mega-menu-sm">
                 <a class="has-arrow" href="" aria-expanded="false">
                     <i class="fa-solid fa-user"></i><span class="nav-text">User Management</span>
@@ -16,7 +16,7 @@
                     <i class="fa-solid fa-person-walking-luggage"></i></i><span class="nav-text">Tour Management</span>
                 </a>
                 <ul aria-expanded="false">
-                    {{-- <li><a href="{{ route('tour.index') }}">Watch tour</a></li> --}}
+                    <li><a href="{{ route('tour.index') }}">Watch tour</a></li>
                 </ul>
             </li>
             <li>

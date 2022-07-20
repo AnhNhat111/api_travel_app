@@ -8,7 +8,7 @@
                     <h3 class="card-title text-white">Booking paid</h3>
                     <div class="d-inline-block">
                         <h2 class="text-white">{{ $data->booking_paid }}</h2>
-                        <p class="text-white mb-0">Jan - March 2019</p>
+                        <p class="text-white mb-0">July 2022</p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                 </div>
@@ -20,7 +20,7 @@
                     <h3 class="card-title text-white">Booking not paid</h3>
                     <div class="d-inline-block">
                         <h2 class="text-white">{{ $data->booking_not_paid }}</h2>
-                        <p class="text-white mb-0">Jan - March 2019</p>
+                        <p class="text-white mb-0">July 2022</p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                 </div>
@@ -32,7 +32,7 @@
                     <h3 class="card-title text-white">New Customers</h3>
                     <div class="d-inline-block">
                         <h2 class="text-white">{{ $data->new_customer }}</h2>
-                        <p class="text-white mb-0">Jan - March 2019</p>
+                        <p class="text-white mb-0">July 2022</p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="d-inline-block">
                         <h2 class="text-white">
                             {{ $data->total_revenue[0]->booking_paid + $data->total_revenue[0]->booking_not_paid }}</h2>
-                        <p class="text-white mb-0">Jan - March 2019</p>
+                        <p class="text-white mb-0">July 2022</p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
                 </div>
@@ -58,128 +58,20 @@
                 <div class="card-body">
                     <div class="active-member">
                         <div class="table-responsive">
-                            <table class="table table-xs mb-0">
+                            <table class="table table-xs mb-0 ">
                                 <thead>
                                     <tr>
-                                        <th>Customers</th>
-                                        <th>Product</th>
-                                        <th>Country</th>
-                                        <th>Status</th>
-                                        <th>Payment Method</th>
-                                        <th>Activity</th>
+                                        <th>NO</th>
+                                        <th>Code Tour </th>
+                                        <th>Total Booking</th>
+                                        <th>Location start</th>
+                                        <th>Location end</th>
+                                        <th>capacity</th>
+                                        <th>Available Capacity</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><img src="./images/avatar/1.jpg" class=" rounded-circle mr-3"
-                                                alt="">Sarah Smith</td>
-                                        <td>iPhone X</td>
-                                        <td>
-                                            <span>United States</span>
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <div class="progress" style="height: 6px">
-                                                    <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                        <td>
-                                            <span>Last Login</span>
-                                            <span class="m-0 pl-3">10 sec ago</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="./images/avatar/2.jpg" class=" rounded-circle mr-3"
-                                                alt="">Walter R.</td>
-                                        <td>Pixel 2</td>
-                                        <td><span>Canada</span></td>
-                                        <td>
-                                            <div>
-                                                <div class="progress" style="height: 6px">
-                                                    <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                        <td>
-                                            <span>Last Login</span>
-                                            <span class="m-0 pl-3">50 sec ago</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="./images/avatar/3.jpg" class=" rounded-circle mr-3"
-                                                alt="">Andrew D.</td>
-                                        <td>OnePlus</td>
-                                        <td><span>Germany</span></td>
-                                        <td>
-                                            <div>
-                                                <div class="progress" style="height: 6px">
-                                                    <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><i class="fa fa-circle-o text-warning  mr-2"></i> Pending</td>
-                                        <td>
-                                            <span>Last Login</span>
-                                            <span class="m-0 pl-3">10 sec ago</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="./images/avatar/6.jpg" class=" rounded-circle mr-3" alt="">
-                                            Megan S.</td>
-                                        <td>Galaxy</td>
-                                        <td><span>Japan</span></td>
-                                        <td>
-                                            <div>
-                                                <div class="progress" style="height: 6px">
-                                                    <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                        <td>
-                                            <span>Last Login</span>
-                                            <span class="m-0 pl-3">10 sec ago</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="./images/avatar/4.jpg" class=" rounded-circle mr-3" alt="">
-                                            Doris R.</td>
-                                        <td>Moto Z2</td>
-                                        <td><span>England</span></td>
-                                        <td>
-                                            <div>
-                                                <div class="progress" style="height: 6px">
-                                                    <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                        <td>
-                                            <span>Last Login</span>
-                                            <span class="m-0 pl-3">10 sec ago</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="./images/avatar/5.jpg" class=" rounded-circle mr-3"
-                                                alt="">Elizabeth W.</td>
-                                        <td>Notebook Asus</td>
-                                        <td><span>China</span></td>
-                                        <td>
-                                            <div>
-                                                <div class="progress" style="height: 6px">
-                                                    <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><i class="fa fa-circle-o text-warning  mr-2"></i> Pending</td>
-                                        <td>
-                                            <span>Last Login</span>
-                                            <span class="m-0 pl-3">10 sec ago</span>
-                                        </td>
-                                    </tr>
+                                <tbody id="mytbody">
+                                    <h4 class="title-top" style="float: left">Top 10</h4>
                                 </tbody>
                             </table>
                         </div>
@@ -188,4 +80,41 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function($) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: '/admin/hot-tour/',
+                dataType: 'json',
+                success: function sbv(res) {
+                    var your_html = "";
+                    var i = 1;
+                    $.each(res, function(key, val) {
+                        your_html += "<tr>" +
+                            "<td>" + i++ + "</td>" +
+                            "<td>" + val.tour.map(x => x.code) + "</td>" +
+                            "<td>" + val.total_book + "</td>" +
+                            "<td>" + val.tour.map(x => x.start_location.name) + "</td>" +
+                            "<td>" + val.tour.map(x => x.end_location.name) + "</td>" +
+                            "<td>" + val.tour.map(x => x.capacity) + "</td>" +
+                            "<td>" + val.tour.map(x => x.available_capacity) + "</td>" +
+                            "</tr>"
+                        console.log(i);
+                        if (i == 11) {
+                            return false;
+                        }
+                    });
+                    $("#data").append(your_html);
+                    $("#mytbody").html(your_html);
+                }
+            });
+        });
+    </script>
 @endsection

@@ -57,7 +57,7 @@ class UserManagement extends Controller
             'login_method_id' => 1,
         ]);
         $user->save();
-        return response()->json($user);
+        return view('admin.pages.quanlytaikhoan.create');
     }
 
     /**
@@ -68,7 +68,11 @@ class UserManagement extends Controller
      */
     public function show($id)
     {
-        //
+        $this_user = User::find($id);
+        if ($this_user) {
+            return response()->json($this_user);
+        }
+        return reponse()->json(['message' => 'not found user']);
     }
 
     /**
@@ -91,7 +95,24 @@ class UserManagement extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $update = User::find($id);
+
+        if ($update) {
+            $update->name =  $request->input('name', $update->name);
+            $update->email =  $request->input('email', $update->email);
+            $update->uid =  $request->input('uid', $request->uid);
+            $update->password =  $request->input('password', $update->password);
+            $update->birthday =  $request->input('birthday', $update->birthday);
+            $update->gender =  $request->input('gender', $update->gender);
+            $update->status =  $request->input('status', $update->status);
+            $update->save();
+            return response()->json([
+                'message' => 'update sussces',
+                'data' => $update
+            ]);
+        } else {
+            return response()->json(['message' => 'not found user']);
+        }
     }
 
     /**

@@ -88,7 +88,7 @@ class StatisticalController extends Controller
         }
 
         return view('admin.pages.login.home', [
-            "data" => $data
+            "data" => $data,
         ]);
     }
 }
